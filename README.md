@@ -312,6 +312,8 @@ I'd also like to thank [Dr. Jekyll's Themes](https://drjekyllthemes.github.io/),
 
 ## Contributions
 
+Avatar credits go to [this](https://www.bbva.com/en/moonshots-ideas-will-change-world/) blog.
+
 If you find anything wrong or would like to contribute in any way, feel free to create a pull request/open an issue/send me a message.  Any comments are welcome!
 
 Thank you to [all contributors](https://github.com/daattali/beautiful-jekyll/graphs/contributors). Special thanks to  [@OCram85](https://github.com/OCram85) and [@abelcheung](https://github.com/abelcheung) for contributing multiple times as well as helping with discussions.
