@@ -2,6 +2,7 @@
 layout: page
 title: Publications
 subtitle: A little bit of contribution, here and there.
+use-site-title: true
 ---
 
 ## 2022
