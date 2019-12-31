@@ -20,7 +20,7 @@ description: A perennial learner shooting for moonshots!
 ###############################################
 
 navbar-links:
-  Projects: "projects/index"
+  # Projects: "projects/index"
   Publications: "publications"
   Blog: "blog/index"
   CV: "/files/cv.pdf"
@@ -209,8 +209,13 @@ google_analytics: "UA-34837384-2"
 # --- Comments --- #
 ####################
 
+<<<<<<< HEAD
 # To use Disqus comments, sign up to https://disqus.com and fill in your Disqus shortname (NOT the userid)
 #disqus: ""
+=======
+# Fill in your Disqus shortname (NOT the userid) if you want to support Disqus comments
+disqus: "apoorvagni"
+>>>>>>> 6c32352 (updates to website)
 
 # To use Facebook Comments, create a Facebook app and fill in the Facebook App ID
 #fb_comment_id: ""
