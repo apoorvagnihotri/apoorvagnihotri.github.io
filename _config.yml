@@ -20,7 +20,7 @@ description: A perennial learner shooting for moonshots!
 
 # List of links in the navigation bar
 navbar-links:
-  Projects: "projects/index"
+  # Projects: "projects/index"
   Publications: "publications"
   Blog: "blog/index"
   CV: "/files/cv.pdf"
@@ -116,7 +116,7 @@ google_analytics: "UA-34837384-2"
 # --- Comments --- #
 
 # Fill in your Disqus shortname (NOT the userid) if you want to support Disqus comments
-# disqus: ""
+disqus: "apoorvagni"
 
 # If you want to use JustComments fill with the API Key
 #just-comments: "ABCD-EFGH-IJKL"
