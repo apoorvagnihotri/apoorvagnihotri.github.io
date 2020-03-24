@@ -4,6 +4,7 @@ title: Publications
 subtitle: A little bit of contribution, here and there.
 ---
 
+<<<<<<< HEAD
 ## 2022
 
 - White, J., Madaan, P., Shenoy, N., _Agnihotri, A._, Sharma, M., & Doshi, J. (2022). A Case for Rejection in Low Resource ML Deployment. arXiv preprint arXiv:2208.06359. Challenges in deploying and monitoring Machine Learning Systems Workshop at NuerIPS
@@ -17,3 +18,12 @@ subtitle: A little bit of contribution, here and there.
 - Narayanan, S. D., _Agnihotri, A._, & Batra, N. (2020). Active learning for air quality station location recommendation. In Proceedings of the 7th ACM IKDD CoDS and 25th COMAD (pp. 326-327).
 
 - Narayanan, S. D., _Agnihotri, A._, & Batra, N. (2020). Active learning for air quality station deployment. Real World Experiment Design and Active Learning Workshop at ICML
+=======
+## 2020
+
+- **Exploring Bayesian Optimization**, <u>Apoorv Agnihotri</u>, Nipun Batra, Accepted at Distill
+
+## 2019
+
+- **Active Learning for Air Quality Station Recommendation**, S. Deepak Narayanan, <u>Apoorv Agnihotri</u>, Nipun Batra, _Accepted at 7<sup>th</sup> ACM IKDD CoDS and 25<sup>th</sup> COMAD (CoDS-COMAD '20)_
+>>>>>>> 1820bf7 (update blog + new)

@@ -23,6 +23,7 @@ navbar-links:
   # Projects: "projects/index"
   Publications: "publications"
   Blog: "blog/index"
+  News: "news"
   CV: "/files/cv.pdf"
 
 ################
