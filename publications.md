@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Publications
-subtitle: A little bit of contribution, here and there.
+subtitle: A bit of contribution, here and there.
 ---
 
 ## 2022
