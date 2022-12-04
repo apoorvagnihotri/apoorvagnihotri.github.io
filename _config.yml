@@ -80,16 +80,12 @@ social-network-links:
   github: apoorvagnihotri
   twitter: ApoorvAgnihotr2
   instagram: apoorvagni0
-  linkedin: apoorv-agnihotri-36119312a
+  linkedin: apoorvagni
 #  xing: yourname
 #  reddit: yourname
 #  stackoverflow: "3943160/daattali"
 #  snapchat: deanat78
-<<<<<<< HEAD
-#  instagram: deanat78
-=======
 #  youtube: user/deanat78
->>>>>>> cb75ff8 (added insta)
 #  spotify: yourname
 #  telephone: +14159998888
 #  steam: deanat78
@@ -210,13 +206,8 @@ google_analytics: "UA-34837384-2"
 # --- Comments --- #
 ####################
 
-<<<<<<< HEAD
 # To use Disqus comments, sign up to https://disqus.com and fill in your Disqus shortname (NOT the userid)
 #disqus: ""
-=======
-# Fill in your Disqus shortname (NOT the userid) if you want to support Disqus comments
-disqus: "apoorvagni"
->>>>>>> 6c32352 (updates to website)
 
 # To use Facebook Comments, create a Facebook app and fill in the Facebook App ID
 #fb_comment_id: ""
