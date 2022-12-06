@@ -5,9 +5,9 @@ subtitle: What's cooking?
 ---
 
 ## 2022
-- **1st Apr:** Joined Rephrase AI as a Deep Learning Researcher.
-- **21st Oct:** Workshop paper accepted at NeurIPS about deployment challenges at Wadhwani AI.
 - **18th Nov:** Gave a guest on Diffusion Models for Probabilistic Machine Learning Course at IITGN.
+- **21st Oct:** Workshop paper accepted at NeurIPS about deployment challenges at Wadhwani AI.
+- **1st Apr:** Joined Rephrase AI as a Deep Learning Researcher.
 
 ## 2021
 - **24th Mar:** Presented Wadhwani's work at Ambedkar International Center on the occation world TB day. 
