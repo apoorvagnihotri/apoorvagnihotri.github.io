@@ -1,1 +1,0 @@
-<iframe src="/files/cv.pdf" height="700" width="700"></iframe>

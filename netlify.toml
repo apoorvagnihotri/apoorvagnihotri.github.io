@@ -1,0 +1,12 @@
+[build]
+  publish = "."
+  command = ""
+
+[dev]
+  command = "echo 'No build needed - serving static files'"
+  publish = "."
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

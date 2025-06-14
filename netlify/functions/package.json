@@ -1,0 +1,10 @@
+{
+  "name": "chat-ai-functions",
+  "version": "1.0.0",
+  "description": "Netlify functions for AI chat feature",
+  "main": "chat-ai.js",
+  "dependencies": {
+    "mongodb": "^5.7.0",
+    "axios": "^1.4.0"
+  }
+}

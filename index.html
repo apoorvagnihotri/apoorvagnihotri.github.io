@@ -1,25 +1,95 @@
----
-layout: page
-title: Apoorv Agnihotri
-use-site-title: true
----
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Name - Personal Website</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-XXXXXXXXXX'); // Replace with your actual Google Analytics ID
+    </script>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Your Name</h1>
+            <nav>
+                <ul>
+                    <li><a href="#overview">Overview</a></li>
+                    <li><a href="#timeline">Timeline</a></li>
+                    <li><a href="#links">Links</a></li>
+                    <li><a href="#ai-assistant">AI Assistant</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
 
-<p>
-    Hi! I am Apoorv Agnihotri. I am excited about using machine learning to solve problems. 
-    I currently work as a Deep Learning Researcher at <a href="https://www.rephrase.ai/">Rephrase AI</a>
-    on speech synthesis. Earlier, I graduated from <a href="https://iitgn.ac.in/">IIT Gandhinagar</a>
-    with a B.Tech. in <a href="https://cs.iitgn.ac.in/">Computer Science and Engineering</a>. I am 
-    broadly interested in machine learning applications. 
-</p>
+    <main>
+        <section id="overview" class="container section">
+            <h2>Overview</h2>
+            <div class="content">
+                <p>I'm a builder at heart. I love writing expository articles that use interactivity to better explain ideas. Having built an article (distill) earlier, I found it hard to recreate similarly spirited articles. I believe that we are currently limited by tooling to build more such expositions. Have you ever felt limited by the writing tools we have? We should talk.</p>
+                
+                <p>How did I get here? I started my bachelors at IIT Gandhinagar and got to work with Prof. Nipun. His projects often revolved around visualizations (vayu). Working with him gave me an appreciation for visualizations. Later when I joined Wadhwani AI, a non-profit, I remember having wrote another article to explain one of our projects in tuberculosis (<a href="https://www.wadhwaniai.org/2021/03/giving-lpa-a-hand/" target="_blank">https://www.wadhwaniai.org/2021/03/giving-lpa-a-hand/</a>). If the article had been interactive, I believe it would have been so much more engaging. I want to help writers to convey insights better while giving life to their content which gives the reader an opportunity to explore and learn.</p>
+            </div>
+        </section>
 
-<p>
-    Previously, I built computer vision solutions in healthcare and agriculture 
-    at<a href="https://www.wadhwaniai.org/">Wadhwani AI</a> with 
-    <a href="https://www.linkedin.com/in/rahulap/">Dr. Rahul Alex Panicker</a>. During my time
-    at IIT Gandhinagar I worked with <a href="https://nipunbatra.github.io/">Prof. Nipun Batra</a> on using 
-    gaussian processses and active learning for computational sustainability. 
-</p>
+        <section id="timeline" class="container section">
+            <h2>Timeline</h2>
+            <div class="timeline-container">
+                <!-- Timeline items will be added here -->
+                <div class="timeline-item">
+                    <div class="timeline-date">2023-Present</div>
+                    <div class="timeline-content">
+                        <h3>Building tooling for writers</h3>
+                        <p>Focused on creating interactive tools for writers to better communicate their ideas.</p>
+                    </div>
+                </div>
+                <!-- Add more timeline items as needed -->
+            </div>
+        </section>
 
-<p>
-    I am always ears to discuss cool ML applications. Please reach out to me to discuss more.
-</p> 
+        <section id="links" class="container section">
+            <h2>Links</h2>
+            <div class="links-container">
+                <!-- Add your links here -->
+                <a href="https://github.com/yourusername" target="_blank" class="link-item">GitHub</a>
+                <a href="https://twitter.com/yourusername" target="_blank" class="link-item">Twitter</a>
+                <a href="https://linkedin.com/in/yourusername" target="_blank" class="link-item">LinkedIn</a>
+                <!-- Add more links as needed -->
+            </div>
+        </section>
+
+        <section id="ai-assistant" class="container section">
+            <h2>AI Assistant</h2>
+            <p>Want to know more about me or my work? Chat with my AI assistant below!</p>
+            
+            <div class="chat-container">
+                <div class="chat-messages" id="chat-messages">
+                    <div class="message assistant">
+                        <div class="message-content">Hello! I'm an AI assistant that can tell you more about this website's owner. What would you like to know?</div>
+                    </div>
+                </div>
+                <div class="chat-input-container">
+                    <textarea id="user-input" placeholder="Type your message here..."></textarea>
+                    <button id="send-button">Send</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Your Name. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/chat.js"></script>
+</body>
+</html>
