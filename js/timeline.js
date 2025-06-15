@@ -18,12 +18,48 @@ class TimelineController {
   }
 
   async loadData() {
-    // For now, mock data; later, fetch from /resume-source
-    this.data = [
-      {role: "PhD Researcher", date: "2017-2021", desc: "Worked on X at Y."},
-      {role: "Engineer", date: "2021-2023", desc: "Built Z at Company."},
-      // Add more as needed
-    ];
+    // Try to fetch and parse LaTeX experience file
+    try {
+      const res = await fetch('/resume-source/src/experience.tex');
+      if (!res.ok) throw new Error('Cannot fetch experience.tex');
+      const tex = await res.text();
+      this.data = this.parseLatexExperience(tex);
+      if (!this.data.length) throw new Error('No data parsed');
+    } catch (e) {
+      // fallback to mock data
+      this.data = [
+        {role: "PhD Researcher", company: "IIT Gandhinagar", date: "2017-2021", location: "Gandhinagar, India", desc: "Worked on Bayesian Optimization, Polire, Vayu."},
+        {role: "Engineer", company: "Rephrase AI", date: "2021-2023", location: "Bangalore, India", desc: "Built Z at Company."},
+      ];
+    }
+  }
+
+  // Parse LaTeX experience.tex into structured JS objects
+  parseLatexExperience(tex) {
+    // Each experience starts with \resumeSubheading{Company}{Date}{Role}{Location}
+    // Followed by \resumeItemListStart ... \resumeItem ... \resumeItemListEnd
+    const expRegex = /\\resumeSubheading\s*\{([^}]*)\}\s*\{([^}]*)\}\s*\{([^}]*)\}\s*\{([^}]*)\}([\s\S]*?)(?=\\resumeSubheading|\\resumeSubHeadingListEnd)/g;
+    const bulletRegex = /\\resumeItem\{([^}]*)\}/g;
+    let match, result = [];
+    while ((match = expRegex.exec(tex))) {
+      const [_, company, date, role, location, itemsBlock] = match;
+      let bullets = [];
+      let bulletMatch;
+      if (itemsBlock) {
+        while ((bulletMatch = bulletRegex.exec(itemsBlock))) {
+          bullets.push(bulletMatch[1].replace(/\\href\{[^}]+\}\{\\underline\{([^}]*)\}\}/g, '$1'));
+        }
+      }
+      result.push({
+        role: role.trim(),
+        company: company.trim(),
+        date: date.trim(),
+        location: location.trim(),
+        desc: bullets.join(' '),
+        bullets
+      });
+    }
+    return result;
   }
 
   renderTimeline() {
@@ -36,10 +72,11 @@ class TimelineController {
     this.data.forEach((d, i) => {
       const node = document.createElement('div');
       node.className = 'timeline-node';
-      node.style.top = `${10 + (80 * i / (n-1))}%`;
+      // Distribute nodes evenly from 10% to 90% (handle n=1 gracefully)
+      const pos = n === 1 ? 50 : 10 + (80 * i / (n-1));
+      node.style.top = `${pos}%`;
       node.style.setProperty('--node-color', this.getNodeColor(i));
-      node.innerHTML = `${d.role}
-        <span class="timeline-tooltip">${d.date}</span>`;
+      node.innerHTML = `<span class="timeline-role" title="${d.role}">${d.role}</span><span class="timeline-tooltip">${d.date}</span>`;
       node.addEventListener('mouseenter', () => this.onHover(i));
       node.addEventListener('mouseleave', () => this.onUnhover(i));
       node.addEventListener('click', () => this.onClick(i));
