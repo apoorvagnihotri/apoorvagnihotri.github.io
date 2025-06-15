@@ -1,138 +1,57 @@
-#timeline-interactive.fullscreen {
-  position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-  background: #f7f7fa;
-  z-index: 1000;
-  overflow: hidden;
-  display: flex; align-items: center; justify-content: center;
-}
-.parallax-bg {
-  position: absolute; width: 100%; height: 100%; top: 0; left: 0;
-  pointer-events: none;
-  /* Placeholder: add background shapes with CSS/SVG here */
-}
-#timeline-svg {
-  position: absolute; left: 50%; top: 0; transform: translateX(-50%);
-  height: 90vh; width: 4rem;
-  z-index: 1;
-}
-#timeline-nodes {
-  position: absolute; left: 50%; top: 0; transform: translateX(-50%);
-  width: 100%;
-  z-index: 2;
-}
-.timeline-node {
-  position: absolute; left: 50%; transform: translateX(-50%);
-  width: 220px; min-height: 44px; max-width: 90vw;
-  border-radius: 24px;
-  background: var(--node-color, #ccc);
-  color: #222; font-weight: bold; font-size: 1.08rem;
-  display: flex; align-items: center; justify-content: center;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
-  cursor: pointer; transition: all 0.2s;
-  overflow: hidden;
-  padding: 0 18px;
-  text-align: center;
-  white-space: nowrap;
+/* Parallax Timeline Styles */
+#parallax-container {
+    position: relative;
+    display: flex;
+    /* Set a height based on content, or use vh units */
+    height: 300vh; /* Example height, adjust as needed */
 }
 
-.timeline-role {
-  display: block;
-  max-width: 180px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+#timeline-fixed {
+    position: -webkit-sticky; /* For Safari */
+    position: sticky;
+    top: 0;
+    width: 25%; /* Adjust width as needed */
+    height: 100vh;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
-.timeline-node:hover {
-  transform: translateX(-50%) scale(1.08);
-  box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+#timeline-content {
+    width: 75%; /* Adjust width as needed */
+    padding: 2rem;
 }
 
-#timeline-interactive { margin-bottom: 60px; }
-
-#timeline-expanded {
-  position: absolute; left: 60%; top: 10%; width: 30vw; min-height: 20vh;
-  background: #fff; border-radius: 18px; box-shadow: 0 4px 32px rgba(0,0,0,0.13);
-  padding: 2em; z-index: 10; display: none;
-  transition: all 0.3s cubic-bezier(.4,2,.6,1);
-  word-break: break-word;
-}
-#timeline-expanded.active {
-  display: block;
-}
-#timeline-expanded h2 {
-  margin-top: 0;
-  font-size: 1.5em;
-}
-#timeline-expanded h4 {
-  margin: 0.5em 0 0.8em 0;
-  font-size: 1.1em;
-  color: #888;
-}
-#timeline-expanded .company {
-  font-weight: bold;
-  font-size: 1.1em;
-}
-#timeline-expanded .location {
-  font-size: 0.98em;
-  color: #666;
-}
-#timeline-expanded ul {
-  margin: 0.8em 0 0 1.2em;
-  padding: 0;
-  list-style: disc inside;
-}
-#timeline-expanded li {
-  margin-bottom: 0.5em;
-  font-size: 1em;
+.experience-card {
+    padding: 2rem;
+    margin-bottom: 80vh; /* Creates space for scrolling */
+    min-height: 60vh; /* Ensures card is large enough to trigger scroll events */
+    background: #f9f9f9;
+    border-left: 4px solid #ccc;
+    transition: border-color 0.3s;
 }
 
-#timeline-expanded onClick(idx) {
-    this.activeIndex = idx;
-    const d = this.data[idx];
-    // Show all details in expanded panel
-    this.expanded.innerHTML = `
-      <h2>${d.role}</h2>
-      <div class="company">${d.company || ''}</div>
-      <div class="location">${d.location || ''}</div>
-      <h4>${d.date}</h4>
-      <ul>${(d.bullets||[]).map(b => `<li>${b}</li>`).join('')}</ul>
-    `;
-    this.expanded.classList.add('active');
-    // Morphing shapes: placeholder for now, could animate node/card
-  }
-
-@media (max-width: 700px) {
-  #timeline-expanded { left: 5%; width: 90vw; }
-  .timeline-node { width: 90vw; max-width: 98vw; }
-  .timeline-role { max-width: 70vw; }
+.experience-card.active {
+    border-left-color: #3498db;
 }
 
-.timeline-node:hover {
-  transform: translateX(-50%) scale(1.08);
-  box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+#timeline-fixed .timeline-node {
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 50%;
+    background: #ccc;
+    margin: 20px 0;
+    transition: background-color 0.3s, transform 0.3s;
 }
-.timeline-tooltip {
-  position: absolute; left: 110%; top: 50%; transform: translateY(-50%);
-  background: #fff; color: #444; padding: 0.5em 1em; border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.09);
-  font-size: 0.95rem;
-  pointer-events: none;
-  opacity: 0; transition: opacity 0.2s;
+
+#timeline-fixed .timeline-node.active {
+    background-color: #3498db;
+    transform: scale(1.2);
 }
-.timeline-node:hover .timeline-tooltip {
-  opacity: 1;
-}
-#timeline-expanded {
-  position: absolute; left: 60%; top: 10%; width: 30vw; min-height: 20vh;
-  background: #fff; border-radius: 18px; box-shadow: 0 4px 32px rgba(0,0,0,0.13);
-  padding: 2em; z-index: 10; display: none;
-  transition: all 0.3s cubic-bezier(.4,2,.6,1);
-}
-#timeline-expanded.active {
-  display: block;
-}
-@media (max-width: 700px) {
-  #timeline-expanded { left: 5%; width: 90vw; }
-  .timeline-node { width: 90vw; }
+
+#timeline-fixed .timeline-node a {
+    text-decoration: none;
+    color: #333;
 }
