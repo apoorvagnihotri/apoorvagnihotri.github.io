@@ -64,13 +64,20 @@ the total.
 
 ## Analytics and privacy
 
-Google Analytics uses the existing GA4 stream `G-EBZQ5EGPT5`. The tag is added
-to every page but follows basic consent mode: it is not downloaded and no data
-is sent to Google until a visitor selects **Allow analytics**. The preference
-is stored only in that browser and can be changed from the site footer.
+Cloudflare Web Analytics is enabled for the Cloudflare Pages deployment. It
+collects aggregate traffic and performance metrics without using cookies or
+local storage to identify visitors. Cloudflare injects its beacon into the
+production site during deployment.
 
-Analytics never loads on `localhost` or `127.0.0.1`, so local development does
-not pollute production reports.
+Google Analytics uses the existing GA4 stream `G-EBZQ5EGPT5`. Its tag is
+available on every page but follows basic consent mode: it is not downloaded and
+no data is sent to Google until a visitor selects **Allow analytics**. The
+preference is stored only in that browser and can be changed from the site
+footer.
+
+Google Analytics never loads on `localhost` or `127.0.0.1`, and Cloudflare only
+injects its beacon into the Cloudflare deployment, so local development does not
+pollute production reports.
 
 Planned, but deliberately not included in the first version:
 
