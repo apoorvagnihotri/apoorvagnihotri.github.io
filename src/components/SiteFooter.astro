@@ -1,0 +1,149 @@
+---
+type Props = {
+  name?: string;
+  backHref?: string;
+  backLabel?: string;
+};
+
+const {
+  name = "Apoorv Agnihotri",
+  backHref,
+  backLabel = "Back",
+} = Astro.props;
+---
+
+<footer class="site-footer">
+  <div class="site-footer__summary">
+    <p>
+      {backHref && <a href={backHref}>{backLabel}</a>}
+      {backHref && <span aria-hidden="true"> · </span>}
+      <span>© <span data-current-year>{new Date().getFullYear()}</span> {name}</span>
+    </p>
+    <p class="site-footer__counter" data-visit-count aria-live="polite" hidden>
+      Visits since launch
+    </p>
+  </div>
+  <p class="site-footer__disclosure">
+    I use Google Analytics, with your permission, to understand which pages
+    people use and where the site’s navigation can improve. Analytics remains
+    off unless you allow it. The public visit counter stores only an aggregate
+    total. <button type="button" data-analytics-preferences>Analytics preferences</button>{" "}
+    · <a href="https://policies.google.com/privacy">Google privacy information</a>
+  </p>
+</footer>
+
+<script>
+  const currentYear = document.querySelector<HTMLElement>("[data-current-year]");
+  if (currentYear) currentYear.textContent = String(new Date().getFullYear());
+
+  const counter = document.querySelector<HTMLElement>("[data-visit-count]");
+  const isLocal = ["localhost", "127.0.0.1", "::1"].includes(
+    window.location.hostname,
+  );
+
+  const updateVisitCount = async () => {
+    if (!counter || isLocal) return;
+
+    const sessionKey = "apoorv-visit-counted-v1";
+    let alreadyCounted = false;
+    let sessionStorageAvailable = true;
+
+    try {
+      alreadyCounted = window.sessionStorage.getItem(sessionKey) === "yes";
+    } catch {
+      sessionStorageAvailable = false;
+    }
+
+    try {
+      const counterUrl = `${import.meta.env.BASE_URL.replace(/\/$/, "")}/api/visits`;
+      const response = await fetch(counterUrl, {
+        method: alreadyCounted || !sessionStorageAvailable ? "GET" : "POST",
+        headers:
+          alreadyCounted || !sessionStorageAvailable
+            ? undefined
+            : { "Content-Type": "application/json" },
+        cache: "no-store",
+      });
+      if (!response.ok) return;
+
+      const data = await response.json();
+      if (typeof data.visits !== "number" || !Number.isFinite(data.visits)) return;
+
+      if (!alreadyCounted && sessionStorageAvailable) {
+        window.sessionStorage.setItem(sessionKey, "yes");
+      }
+      const formatted = new Intl.NumberFormat("en").format(data.visits);
+      counter.textContent = `${formatted} ${data.visits === 1 ? "visit" : "visits"} since launch`;
+      counter.hidden = false;
+    } catch {
+      // The counter is intentionally non-critical; the static site remains usable.
+    }
+  };
+
+  updateVisitCount();
+</script>
+
+<style>
+  .site-footer {
+    width: min(calc(100% - 3rem), var(--max-width, 72rem));
+    margin: 0 auto;
+    padding: 2rem 0 3rem;
+    border-top: 1px solid var(--line, #d9d9d2);
+    color: var(--muted, #65655e);
+    font-family: var(--font-body, system-ui, sans-serif);
+    font-size: 0.75rem;
+    line-height: 1.5;
+  }
+
+  .site-footer p {
+    margin: 0;
+  }
+
+  .site-footer a,
+  .site-footer button {
+    color: inherit;
+    text-underline-offset: 0.2em;
+  }
+
+  .site-footer__summary {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .site-footer__counter {
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+  .site-footer__disclosure {
+    max-width: 54rem;
+    margin-top: 0.65rem !important;
+    font-size: 0.68rem;
+  }
+
+  .site-footer button {
+    padding: 0;
+    border: 0;
+    background: transparent;
+    font: inherit;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+
+  .site-footer a:focus-visible,
+  .site-footer button:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 0.2rem;
+  }
+
+  @media (max-width: 34rem) {
+    .site-footer__summary {
+      display: block;
+    }
+
+    .site-footer__counter {
+      margin-top: 0.3rem !important;
+    }
+  }
+</style>

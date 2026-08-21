@@ -1,0 +1,74 @@
+# Personal website
+
+An Astro website intended for academic writing and information dissemination.
+
+## Local development
+
+Install dependencies once:
+
+```sh
+npm install
+```
+
+Start the local site:
+
+```sh
+npm run dev
+```
+
+Astro prints the local URL, normally `http://localhost:4321`.
+
+## Production check
+
+```sh
+npm run build
+npm run preview
+```
+
+## Deployment direction
+
+The site is static by default and is intended for Cloudflare Pages. If backend
+features are added later, use Cloudflare Workers-compatible APIs and do not
+assume a permanently running Node.js server.
+
+The only current serverless feature is the public visit counter. Its endpoint
+is `functions/api/visits.ts`, and Cloudflare Pages should invoke Functions only
+for `/api/*` according to `public/_routes.json`; ordinary pages remain static.
+
+To activate the counter during deployment:
+
+1. Create a Cloudflare D1 database for the website.
+2. Apply `migrations/0001_visit_counter.sql` to that database.
+3. Bind it to the Pages project using the variable name `VISITS_DB`.
+4. Redeploy the Pages project.
+
+The counter stores one aggregate integer. It does not store IP addresses,
+locations, user agents, or individual visit records. A browser session
+increments the counter once; subsequent page loads in that session only read
+the total.
+
+## Analytics and privacy
+
+Google Analytics uses the existing GA4 stream `G-EBZQ5EGPT5`. The tag is added
+to every page but follows basic consent mode: it is not downloaded and no data
+is sent to Google until a visitor selects **Allow analytics**. The preference
+is stored only in that browser and can be changed from the site footer.
+
+Analytics never loads on `localhost` or `127.0.0.1`, so local development does
+not pollute production reports.
+
+Planned, but deliberately not included in the first version:
+
+- Giscus comments
+- Site search
+- AI-assisted search
+
+## Writing
+
+Markdown articles live in `src/content/writing`. Each article has structured
+metadata for its title, description, publication date, label, tags, and archive
+status. The initial collection contains three informal posts migrated from the
+previous Jekyll website.
+
+Typography references for a later design iteration are recorded in
+[`docs/typography-notes.md`](docs/typography-notes.md).

@@ -1,0 +1,226 @@
+---
+type Props = {
+  measurementId: string;
+};
+
+const { measurementId } = Astro.props;
+---
+
+<aside
+  class="analytics-consent"
+  data-analytics-consent
+  role="dialog"
+  aria-modal="false"
+  aria-labelledby="analytics-consent-title"
+  hidden
+>
+  <div>
+    <h2 id="analytics-consent-title">A small analytics choice</h2>
+    <p>
+      May I use Google Analytics to understand which pages people use and where
+      the site’s navigation can improve? It stays off unless you allow it.
+    </p>
+  </div>
+  <div class="analytics-consent__actions">
+    <button type="button" data-analytics-deny>No thanks</button>
+    <button type="button" class="analytics-consent__allow" data-analytics-allow>
+      Allow analytics
+    </button>
+  </div>
+</aside>
+
+<script is:inline define:vars={{ measurementId }}>
+  const consentKey = "apoorv-analytics-consent-v1";
+  const consentPanel = document.querySelector("[data-analytics-consent]");
+  const allowButton = document.querySelector("[data-analytics-allow]");
+  const denyButton = document.querySelector("[data-analytics-deny]");
+  const preferenceButtons = document.querySelectorAll(
+    "[data-analytics-preferences]",
+  );
+  const isLocal = ["localhost", "127.0.0.1", "::1"].includes(
+    window.location.hostname,
+  );
+  let analyticsLoaded = false;
+
+  const setAnalyticsDisabled = (disabled) => {
+    window[`ga-disable-${measurementId}`] = disabled;
+  };
+
+  function gtag() {
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push(arguments);
+  }
+
+  const saveConsent = (value) => {
+    try {
+      window.localStorage.setItem(consentKey, value);
+    } catch {
+      // A privacy-restricted browser can still apply the choice for this page.
+    }
+  };
+
+  const readConsent = () => {
+    try {
+      return window.localStorage.getItem(consentKey);
+    } catch {
+      return null;
+    }
+  };
+
+  const consentDefaults = {
+    ad_storage: "denied",
+    ad_user_data: "denied",
+    ad_personalization: "denied",
+    analytics_storage: "denied",
+  };
+
+  const loadAnalytics = () => {
+    if (analyticsLoaded || isLocal) return;
+    analyticsLoaded = true;
+    setAnalyticsDisabled(false);
+
+    gtag("consent", "default", consentDefaults);
+    gtag("consent", "update", {
+      ...consentDefaults,
+      analytics_storage: "granted",
+    });
+    gtag("set", "ads_data_redaction", true);
+    gtag("js", new Date());
+    gtag("config", measurementId);
+
+    const script = document.createElement("script");
+    script.async = true;
+    script.src = `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(measurementId)}`;
+    document.head.append(script);
+  };
+
+  const expireAnalyticsCookies = () => {
+    document.cookie.split(";").forEach((cookie) => {
+      const name = cookie.split("=")[0]?.trim();
+      if (!name || (name !== "_ga" && !name.startsWith("_ga_"))) return;
+      document.cookie = `${name}=; Max-Age=0; Path=/; SameSite=Lax`;
+    });
+  };
+
+  const hidePanel = () => {
+    if (consentPanel instanceof HTMLElement) consentPanel.hidden = true;
+  };
+
+  const showPanel = (moveFocus = false) => {
+    if (!(consentPanel instanceof HTMLElement)) return;
+    consentPanel.hidden = false;
+    if (moveFocus && allowButton instanceof HTMLButtonElement) {
+      allowButton.focus();
+    }
+  };
+
+  const grantConsent = () => {
+    saveConsent("granted");
+    loadAnalytics();
+    hidePanel();
+  };
+
+  const denyConsent = () => {
+    saveConsent("denied");
+    setAnalyticsDisabled(true);
+    if (analyticsLoaded) {
+      gtag("consent", "update", consentDefaults);
+      expireAnalyticsCookies();
+    }
+    hidePanel();
+  };
+
+  allowButton?.addEventListener("click", grantConsent);
+  denyButton?.addEventListener("click", denyConsent);
+  preferenceButtons.forEach((button) => {
+    button.addEventListener("click", () => showPanel(true));
+  });
+
+  const savedConsent = readConsent();
+  if (savedConsent === "granted") {
+    loadAnalytics();
+  } else if (savedConsent !== "denied") {
+    showPanel();
+  } else {
+    setAnalyticsDisabled(true);
+  }
+</script>
+
+<style>
+  .analytics-consent {
+    position: fixed;
+    z-index: 20;
+    right: 1rem;
+    bottom: 1rem;
+    left: 1rem;
+    display: grid;
+    width: min(calc(100% - 2rem), 44rem);
+    margin: 0 auto;
+    padding: 1rem;
+    border: 1px solid var(--text, #1b1b19);
+    background: var(--background, #fafaf8);
+    box-shadow: 0 0.75rem 2.5rem rgb(0 0 0 / 12%);
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 1rem;
+    align-items: end;
+    color: var(--text, #1b1b19);
+    font-family: var(--font-body, system-ui, sans-serif);
+  }
+
+  .analytics-consent[hidden] {
+    display: none;
+  }
+
+  .analytics-consent h2 {
+    margin: 0 0 0.25rem;
+    font-family: var(--font-body, system-ui, sans-serif);
+    font-size: 0.95rem;
+    font-weight: 700;
+    letter-spacing: 0;
+  }
+
+  .analytics-consent p {
+    max-width: 34rem;
+    margin: 0;
+    color: var(--muted, #65655e);
+    font-size: 0.8rem;
+    line-height: 1.45;
+  }
+
+  .analytics-consent__actions {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .analytics-consent button {
+    min-height: 2.4rem;
+    padding: 0.45rem 0.75rem;
+    border: 1px solid var(--text, #1b1b19);
+    border-radius: 0;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    font-size: 0.78rem;
+    cursor: pointer;
+  }
+
+  .analytics-consent button:hover,
+  .analytics-consent button:focus-visible {
+    background: var(--line, #d9d9d2);
+  }
+
+  .analytics-consent .analytics-consent__allow {
+    background: var(--text, #1b1b19);
+    color: var(--background, #fafaf8);
+  }
+
+  @media (max-width: 38rem) {
+    .analytics-consent {
+      grid-template-columns: 1fr;
+    }
+
+    .analytics-consent__actions {
+      justify-content: flex-end;
+    }
+  }
+</style>

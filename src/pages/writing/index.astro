@@ -1,0 +1,95 @@
+---
+import { getCollection } from "astro:content";
+import AnalyticsConsent from "../../components/AnalyticsConsent.astro";
+import SiteFooter from "../../components/SiteFooter.astro";
+import WritingList from "../../components/WritingList.astro";
+import { siteConfig, withBase } from "../../config/site";
+
+const entries = (await getCollection("writing")).sort(
+  (a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime(),
+);
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta
+      name="description"
+      content="Writing by Apoorv Agnihotri: research notes, literature reviews, essays, and archived informal blog posts."
+    />
+    <title>Writing — Apoorv Agnihotri</title>
+  </head>
+  <body>
+    <header>
+      <nav aria-label="Writing navigation">
+        <a class="site-name" href={withBase("/")}>Apoorv Agnihotri</a>
+        <a href={withBase("/#writing")}>Homepage</a>
+      </nav>
+    </header>
+    <main>
+      <p class="eyebrow">Archive</p>
+      <h1>Writing</h1>
+      <p class="introduction">
+        Research notes, literature reviews, web-native explanations, essays,
+        and informal posts preserved from my earlier website.
+      </p>
+      <WritingList entries={entries} />
+    </main>
+    <SiteFooter />
+    <AnalyticsConsent
+      measurementId={siteConfig.analytics.googleMeasurementId}
+    />
+  </body>
+</html>
+
+<style is:global>
+  * { box-sizing: border-box; }
+  :root {
+    --font-body: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --font-display: Georgia, "Times New Roman", serif;
+    --background: #fafaf8;
+    --text: #1b1b19;
+    --muted: #65655e;
+    --line: #d9d9d2;
+  }
+  body {
+    margin: 0;
+    background: var(--background);
+    color: var(--text);
+    font-family: var(--font-body);
+    line-height: 1.65;
+  }
+  a { color: inherit; text-underline-offset: 0.2em; }
+  a:focus-visible { outline: 2px solid currentColor; outline-offset: 0.25rem; }
+  body > header { border-bottom: 1px solid var(--line); }
+  nav, main { width: min(calc(100% - 2rem), 56rem); margin: 0 auto; }
+  nav {
+    display: flex;
+    padding: 0.9rem 0;
+    justify-content: space-between;
+    gap: 1rem;
+    font-size: 0.9rem;
+  }
+  nav a { text-decoration: none; }
+  .site-name { font-weight: 650; }
+  main { padding: clamp(4rem, 10vw, 8rem) 0 5rem; }
+  .eyebrow {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.75rem;
+    font-weight: 650;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  h1 {
+    margin: 0.15rem 0 1rem;
+    font-family: var(--font-display);
+    font-size: clamp(3.25rem, 9vw, 7rem);
+    font-weight: 400;
+    letter-spacing: -0.04em;
+    line-height: 1;
+  }
+  .introduction { max-width: 42rem; color: var(--muted); font-size: 1.15rem; }
+</style>

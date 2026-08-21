@@ -1,0 +1,924 @@
+---
+import { getCollection } from "astro:content";
+import AnalyticsConsent from "../components/AnalyticsConsent.astro";
+import SiteFooter from "../components/SiteFooter.astro";
+import WritingList from "../components/WritingList.astro";
+import { resolveSiteHref, siteConfig, withBase } from "../config/site";
+import { newsItems, type NewsItem } from "../data/news";
+
+const site = {
+  name: "Apoorv Agnihotri",
+  title: "Apoorv Agnihotri — Research",
+  description:
+    "The personal academic website of Apoorv Agnihotri: research, collaborations, selected work, writing, and news.",
+};
+
+const navigation = [
+  { label: "Research", href: "#research" },
+  { label: "About", href: "#about" },
+  { label: "Work", href: "#work" },
+  { label: "Writing", href: "#writing" },
+  { label: "News", href: "#news" },
+  { label: "Contact", href: "#contact" },
+  { label: "CV", href: "#cv" },
+];
+
+const writingEntries = (await getCollection("writing"))
+  .sort((a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime())
+  .slice(0, 3);
+
+const mappedNewsItems = newsItems.filter(
+  (
+    item,
+  ): item is NewsItem & {
+    mapCoordinates: NonNullable<NewsItem["mapCoordinates"]>;
+  } => Boolean(item.mapCoordinates),
+);
+
+// Approximate geographic bounds of the Europe base map. A future location only
+// needs latitude and longitude; this projection places it on the map.
+const europeMapBounds = { west: -25, east: 50, north: 80, south: 28 };
+const clamp = (value: number) => Math.min(1, Math.max(0, value));
+const projectToEuropeMap = (latitude: number, longitude: number) => ({
+  x:
+    clamp(
+      (longitude - europeMapBounds.west) /
+        (europeMapBounds.east - europeMapBounds.west),
+    ) * 100,
+  y:
+    clamp(
+      (europeMapBounds.north - latitude) /
+        (europeMapBounds.north - europeMapBounds.south),
+    ) * 100,
+});
+
+const formatDate = (
+  date: string,
+  precision: NewsItem["datePrecision"] = "day",
+) => {
+  const options: Intl.DateTimeFormatOptions = {
+    year: "numeric",
+    timeZone: "UTC",
+  };
+
+  if (precision !== "year") options.month = "short";
+  if (precision === "day") {
+    options.weekday = "short";
+    options.day = "numeric";
+  }
+
+  return new Intl.DateTimeFormat("en", options).format(
+    new Date(`${date}T00:00:00Z`),
+  );
+};
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content={site.description} />
+    <title>{site.title}</title>
+  </head>
+  <body
+    style={`--icon-calendar: url("${withBase("/icons/calendar.svg")}"); --icon-map-pin: url("${withBase("/icons/map-pin.svg")}"); --icon-coffee: url("${withBase("/icons/coffee.svg")}");`}
+  >
+    <a class="skip-link" href="#main-content">Skip to content</a>
+
+    <header class="site-header">
+      <nav class="navigation" aria-label="Primary navigation">
+        <a class="site-name" href="#top">{site.name}</a>
+        <div class="navigation-links">
+          {
+            navigation.map((item) => (
+              <a href={item.href}>{item.label}</a>
+            ))
+          }
+        </div>
+      </nav>
+    </header>
+
+    <main id="main-content">
+      <section class="introduction" id="top" aria-labelledby="intro-heading">
+        <p class="eyebrow">Personal academic website</p>
+        <h1 id="intro-heading">{site.name}</h1>
+        <p class="lede">
+          I am building this site as a home for my research, writing, selected
+          work, and the collaborations that have shaped how I think.
+        </p>
+        <p class="placeholder">
+          Current role, affiliation, location, and a short research statement
+          will go here.
+        </p>
+      </section>
+
+      <section id="research" aria-labelledby="research-heading">
+        <p class="section-number" aria-hidden="true">01</p>
+        <div class="section-content">
+          <h2 id="research-heading">Current research</h2>
+          <p class="section-introduction">
+            This section will introduce the questions I am currently working
+            on, why they matter, and the approaches I use to study them.
+          </p>
+          <p class="placeholder">
+            Add two or three short paragraphs about the present research focus.
+          </p>
+        </div>
+      </section>
+
+      <section id="about" aria-labelledby="about-heading">
+        <p class="section-number" aria-hidden="true">02</p>
+        <div class="section-content">
+          <h2 id="about-heading">About &amp; research community</h2>
+          <p class="section-introduction">
+            This section will trace the groups, collaborators, and questions
+            that connect my earlier work to what I am pursuing now.
+          </p>
+          <p>
+            I’m happy to help people find relevant work, groups, or researchers
+            in areas I know. If you think an introduction might be useful, feel
+            free to reach out with some context.
+          </p>
+          <p class="placeholder">
+            Add the research path, collaborators, groups, institutions, and
+            links that make this community visible.
+          </p>
+        </div>
+      </section>
+
+      <section id="work" aria-labelledby="work-heading">
+        <p class="section-number" aria-hidden="true">03</p>
+        <div class="section-content">
+          <h2 id="work-heading">Selected work</h2>
+          <p class="section-introduction">
+            Publications and projects most closely aligned with my current
+            interests will appear here, with links to papers, code, data, and
+            project pages.
+          </p>
+          <p class="empty-state">No selected work has been added yet.</p>
+        </div>
+      </section>
+
+      <section id="writing" aria-labelledby="writing-heading">
+        <p class="section-number" aria-hidden="true">04</p>
+        <div class="section-content">
+          <h2 id="writing-heading">Writing</h2>
+          <p class="section-introduction">
+            Literature reviews, research notes, and web-native explanations of
+            ideas I am studying, alongside informal writing preserved from my
+            earlier website.
+          </p>
+          <WritingList entries={writingEntries} />
+          <p class="view-all">
+            <a href={withBase("/writing/")}>View all writing →</a>
+          </p>
+        </div>
+      </section>
+
+      <section id="news" aria-labelledby="news-heading">
+        <p class="section-number" aria-hidden="true">05</p>
+        <div class="section-content">
+          <h2 id="news-heading">News</h2>
+          <p class="section-introduction">
+            Upcoming events and recent milestones. Older entries remain in a
+            compact archive.
+          </p>
+
+          <div class="news-group">
+            <h3>Current &amp; upcoming</h3>
+            <div class="news-upcoming-layout">
+              <figure class="news-map" data-news-map aria-labelledby="news-map-caption">
+                <div class="news-map-plot">
+                  <img
+                    src={withBase("/images/news/europe-blank-map.svg")}
+                    alt=""
+                    width="972"
+                    height="673"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                  {
+                    mappedNewsItems.map((item) => {
+                      const city = item.location?.split(",")[0] ?? item.title;
+                      const position = projectToEuropeMap(
+                        item.mapCoordinates.latitude,
+                        item.mapCoordinates.longitude,
+                      );
+                      const markerAttributes = {
+                        class: `news-map-marker news-map-marker--${item.mapCoordinates.labelPlacement ?? "above-right"}`,
+                        "data-news-map-marker": "",
+                        "data-start": item.startDate,
+                        "data-end": item.endDate ?? item.startDate,
+                        style: `--map-x: ${position.x.toFixed(2)}; --map-y: ${position.y.toFixed(2)};`,
+                        "aria-label": `${city}: ${item.title}, ${formatDate(item.startDate, item.datePrecision)}`,
+                      };
+
+                      return item.href ? (
+                        <a href={resolveSiteHref(item.href)} {...markerAttributes}>
+                          <span>{city}</span>
+                        </a>
+                      ) : (
+                        <span {...markerAttributes}>
+                          <span>{city}</span>
+                        </span>
+                      );
+                    })
+                  }
+                </div>
+                <figcaption id="news-map-caption">
+                  <span>Upcoming locations</span>
+                  <a href="https://commons.wikimedia.org/wiki/File:Europe_blank_map.svg">
+                    Map
+                  </a>
+                </figcaption>
+              </figure>
+
+              <div class="news-upcoming-feed">
+                <ol class="news-list" data-news-list="upcoming">
+                  {
+                    newsItems.map((item) => (
+                      <li
+                        class="news-item"
+                        data-start={item.startDate}
+                        data-end={item.endDate ?? item.startDate}
+                      >
+                        <div>
+                          <p class="news-type">{item.type}</p>
+                          <h4>
+                            {item.href ? (
+                              <a href={resolveSiteHref(item.href)}>{item.title}</a>
+                            ) : (
+                              item.title
+                            )}
+                          </h4>
+                          {
+                            item.description && (
+                              <p>
+                                {item.description}{" "}
+                                {item.contactHref && item.contactLabel && (
+                                  <a class="news-contact" href={item.contactHref}>
+                                    <span class="fa-icon fa-coffee" aria-hidden="true" />
+                                    {item.contactLabel}
+                                  </a>
+                                )}
+                              </p>
+                            )
+                          }
+                        </div>
+                        <p class="news-meta">
+                          <span class="news-meta-line">
+                            <span class="fa-icon fa-calendar" aria-hidden="true" />
+                            <span>
+                              <time datetime={item.startDate}>
+                                {formatDate(item.startDate, item.datePrecision)}
+                              </time>
+                              {
+                                item.endDate &&
+                                  `–${formatDate(item.endDate, item.datePrecision)}`
+                              }
+                            </span>
+                          </span>
+                          {
+                            item.location && (
+                              <span class="news-meta-line">
+                                <span
+                                  class="fa-icon fa-map-pin"
+                                  aria-hidden="true"
+                                />
+                                <span>{item.location}</span>
+                              </span>
+                            )
+                          }
+                        </p>
+                      </li>
+                    ))
+                  }
+                </ol>
+                <p class="empty-state" data-news-empty="upcoming">
+                  No current or upcoming entries.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="news-group">
+            <h3>Recent</h3>
+            <ol class="news-list" data-news-list="recent"></ol>
+            <p class="empty-state" data-news-empty="recent">No recent entries.</p>
+          </div>
+
+          <details class="news-archive">
+            <summary>
+              Archive <span data-archive-count></span>
+            </summary>
+            <ol class="news-list" data-news-list="archive"></ol>
+            <p class="empty-state" data-news-empty="archive">No archived entries.</p>
+          </details>
+        </div>
+      </section>
+
+      <section id="contact" aria-labelledby="contact-heading">
+        <p class="section-number" aria-hidden="true">06</p>
+        <div class="section-content">
+          <h2 id="contact-heading">Contact</h2>
+          <p class="section-introduction">
+            Email, GitHub, academic profiles, and social links will go here.
+          </p>
+          <p class="empty-state">Contact details have not been added yet.</p>
+          <div id="cv" class="cv-placeholder">
+            <h3>Curriculum vitae</h3>
+            <p>The CV will be linked here when it is ready.</p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <SiteFooter name={site.name} />
+    <AnalyticsConsent
+      measurementId={siteConfig.analytics.googleMeasurementId}
+    />
+
+    <script>
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+
+      const upcomingList = document.querySelector<HTMLOListElement>(
+        '[data-news-list="upcoming"]',
+      );
+      const recentList = document.querySelector<HTMLOListElement>(
+        '[data-news-list="recent"]',
+      );
+      const archiveList = document.querySelector<HTMLOListElement>(
+        '[data-news-list="archive"]',
+      );
+
+      const recentCutoff = new Date(today);
+      recentCutoff.setMonth(recentCutoff.getMonth() - 18);
+
+      const items = Array.from(document.querySelectorAll<HTMLElement>(".news-item"));
+      const timestamp = (item: HTMLElement, field: "start" | "end") =>
+        new Date(`${item.dataset[field]}T00:00:00`).getTime();
+
+      const upcoming = items
+        .filter((item) => timestamp(item, "end") >= today.getTime())
+        .sort((a, b) => timestamp(a, "start") - timestamp(b, "start"));
+      const recent = items
+        .filter(
+          (item) =>
+            timestamp(item, "end") < today.getTime() &&
+            timestamp(item, "end") >= recentCutoff.getTime(),
+        )
+        .sort((a, b) => timestamp(b, "end") - timestamp(a, "end"));
+      const archive = items
+        .filter((item) => timestamp(item, "end") < recentCutoff.getTime())
+        .sort((a, b) => timestamp(b, "end") - timestamp(a, "end"));
+
+      upcoming.forEach((item) => upcomingList?.append(item));
+      recent.forEach((item) => recentList?.append(item));
+      archive.forEach((item) => archiveList?.append(item));
+
+      const archiveCount = document.querySelector<HTMLElement>(
+        "[data-archive-count]",
+      );
+      if (archiveCount) archiveCount.textContent = `(${archive.length})`;
+
+      const mapMarkers = Array.from(
+        document.querySelectorAll<HTMLElement>("[data-news-map-marker]"),
+      );
+      mapMarkers.forEach((marker) => {
+        marker.hidden = timestamp(marker, "end") < today.getTime();
+      });
+
+      const newsMap = document.querySelector<HTMLElement>("[data-news-map]");
+      if (newsMap) newsMap.hidden = mapMarkers.every((marker) => marker.hidden);
+
+      document.querySelectorAll<HTMLElement>("[data-news-empty]").forEach((empty) => {
+        const list = document.querySelector(
+          `[data-news-list="${empty.dataset.newsEmpty}"]`,
+        );
+        empty.hidden = Boolean(list?.children.length);
+      });
+
+    </script>
+  </body>
+</html>
+
+<style>
+  :global(*) {
+    box-sizing: border-box;
+  }
+
+  :global(:root) {
+    --font-body: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --font-display: Georgia, "Times New Roman", serif;
+    --background: #fafaf8;
+    --text: #1b1b19;
+    --muted: #65655e;
+    --line: #d9d9d2;
+    --max-width: 72rem;
+    color-scheme: light;
+    scroll-behavior: smooth;
+  }
+
+  :global(body) {
+    margin: 0;
+    min-width: 20rem;
+    min-height: 100vh;
+    background: var(--background);
+    color: var(--text);
+    font-family: var(--font-body);
+    line-height: 1.65;
+  }
+
+  :global(a) {
+    color: inherit;
+    text-underline-offset: 0.2em;
+  }
+
+  :global(a:hover) {
+    text-decoration-thickness: 0.12em;
+  }
+
+  :global(a:focus-visible) {
+    outline: 2px solid currentColor;
+    outline-offset: 0.25rem;
+  }
+
+  .skip-link {
+    position: fixed;
+    z-index: 10;
+    top: 0.75rem;
+    left: 0.75rem;
+    padding: 0.5rem 0.75rem;
+    background: var(--text);
+    color: var(--background);
+    transform: translateY(-200%);
+  }
+
+  .skip-link:focus {
+    transform: translateY(0);
+  }
+
+  .site-header {
+    position: sticky;
+    z-index: 5;
+    top: 0;
+    border-bottom: 1px solid var(--line);
+    background: color-mix(in srgb, var(--background) 94%, transparent);
+    backdrop-filter: blur(8px);
+  }
+
+  .navigation {
+    display: flex;
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0.9rem 1.5rem;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+  }
+
+  .site-name {
+    flex: none;
+    font-weight: 650;
+    text-decoration: none;
+  }
+
+  .navigation-links {
+    display: flex;
+    overflow-x: auto;
+    align-items: center;
+    gap: 1.2rem;
+    scrollbar-width: none;
+  }
+
+  .navigation-links::-webkit-scrollbar {
+    display: none;
+  }
+
+  .navigation-links a {
+    flex: none;
+    color: var(--muted);
+    font-size: 0.9rem;
+    text-decoration: none;
+  }
+
+  .navigation-links a:hover {
+    color: var(--text);
+  }
+
+  main,
+  footer {
+    width: min(calc(100% - 3rem), var(--max-width));
+    margin: 0 auto;
+  }
+
+  .introduction {
+    display: block;
+    min-height: min(70vh, 44rem);
+    padding: clamp(6rem, 14vw, 11rem) 0 5rem;
+  }
+
+  .eyebrow,
+  .section-number,
+  .news-type {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.75rem;
+    font-weight: 650;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  h1,
+  h2 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    letter-spacing: -0.025em;
+  }
+
+  h1 {
+    max-width: 13ch;
+    margin: 0.25rem 0 1.5rem;
+    font-size: clamp(3.25rem, 9vw, 7.5rem);
+    line-height: 0.95;
+  }
+
+  .lede {
+    max-width: 44rem;
+    margin: 0;
+    font-size: clamp(1.25rem, 2.4vw, 1.75rem);
+    line-height: 1.45;
+  }
+
+  .introduction .placeholder {
+    max-width: 42rem;
+    margin-top: 2rem;
+  }
+
+  section:not(.introduction) {
+    display: grid;
+    grid-template-columns: minmax(2rem, 0.25fr) minmax(0, 1fr);
+    gap: 2rem;
+    padding: 5rem 0;
+    border-top: 1px solid var(--line);
+    scroll-margin-top: 4.5rem;
+  }
+
+  .section-content {
+    max-width: 48rem;
+  }
+
+  h2 {
+    margin: -0.15em 0 1.5rem;
+    font-size: clamp(2.1rem, 5vw, 4rem);
+    line-height: 1.05;
+  }
+
+  h3,
+  h4,
+  p {
+    margin-top: 0;
+  }
+
+  h3 {
+    margin-bottom: 1rem;
+    font-size: 1rem;
+  }
+
+  h4 {
+    margin-bottom: 0.35rem;
+    font-size: 1.05rem;
+  }
+
+  .section-introduction {
+    max-width: 42rem;
+    margin-bottom: 1.5rem;
+    font-size: 1.15rem;
+  }
+
+  .placeholder,
+  .empty-state {
+    color: var(--muted);
+  }
+
+  .view-all {
+    margin-top: 1.5rem;
+    font-size: 0.9rem;
+    font-weight: 650;
+  }
+
+  .empty-state {
+    padding: 1rem 0;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    font-size: 0.9rem;
+  }
+
+  .news-group {
+    margin-top: 1.75rem;
+  }
+
+  #news .section-content {
+    width: 100%;
+    max-width: 64rem;
+  }
+
+  .news-upcoming-layout {
+    display: grid;
+    grid-template-columns: 12rem minmax(0, 1fr);
+    gap: 1.25rem;
+    align-items: start;
+    border-top: 1px solid var(--line);
+  }
+
+  .news-upcoming-feed .news-item:first-child {
+    border-top: 0;
+  }
+
+  .news-map {
+    min-width: 0;
+    margin: 0;
+    padding-top: 0.75rem;
+  }
+
+  .news-map-plot {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 972 / 673;
+    border: 1px solid var(--line);
+    background: var(--background);
+  }
+
+  .news-map-plot img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(1) contrast(1.3);
+    mix-blend-mode: multiply;
+    opacity: 0.52;
+  }
+
+  .news-map-marker {
+    position: absolute;
+    z-index: 1;
+    top: calc(var(--map-y) * 1%);
+    left: calc(var(--map-x) * 1%);
+    width: 0.66rem;
+    height: 0.66rem;
+    color: var(--text);
+    transform: translate(-50%, -50%);
+  }
+
+  .news-map-marker::before {
+    position: absolute;
+    inset: 0;
+    background: currentColor;
+    content: "";
+    -webkit-mask: var(--icon-map-pin) center / contain no-repeat;
+    mask: var(--icon-map-pin) center / contain no-repeat;
+  }
+
+  .news-map-marker > span {
+    position: absolute;
+    padding: 0.08rem 0.2rem;
+    background: color-mix(in srgb, var(--background) 90%, transparent);
+    font-size: 0.55rem;
+    font-weight: 700;
+    line-height: 1.15;
+    white-space: nowrap;
+  }
+
+  .news-map-marker--above-left > span {
+    right: 0.5rem;
+    bottom: 0.45rem;
+  }
+
+  .news-map-marker--above-right > span {
+    bottom: 0.45rem;
+    left: 0.5rem;
+  }
+
+  .news-map-marker--below-left > span {
+    top: 0.45rem;
+    right: 0.5rem;
+  }
+
+  .news-map-marker--below-right > span {
+    top: 0.45rem;
+    left: 0.5rem;
+  }
+
+  .news-map figcaption {
+    display: flex;
+    margin-top: 0.35rem;
+    justify-content: space-between;
+    gap: 0.5rem;
+    color: var(--muted);
+    font-size: 0.6rem;
+    line-height: 1.3;
+  }
+
+  .news-map figcaption a {
+    text-underline-offset: 0.12em;
+  }
+
+  .news-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .news-item {
+    display: grid;
+    grid-template-columns: minmax(7.5rem, 0.25fr) minmax(0, 1fr);
+    gap: 1.25rem;
+    padding: 0.75rem 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .news-type {
+    display: inline;
+    margin-right: 0.5rem;
+    font-size: 0.66rem;
+  }
+
+  .news-item h4 {
+    display: inline;
+    margin: 0;
+    font-size: 0.95rem;
+  }
+
+  .news-item > div > p:not(.news-type) {
+    margin: 0.2rem 0 0;
+    color: var(--muted);
+    font-size: 0.84rem;
+    line-height: 1.45;
+  }
+
+  .news-meta {
+    grid-column: 1;
+    grid-row: 1;
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.76rem;
+    font-variant-numeric: tabular-nums;
+    line-height: 1.45;
+    text-align: left;
+  }
+
+  .news-meta-line {
+    display: flex;
+    align-items: baseline;
+    gap: 0.3rem;
+  }
+
+  .news-meta-line + .news-meta-line {
+    margin-top: 0.06rem;
+  }
+
+  .fa-icon {
+    display: inline-block;
+    width: 0.78em;
+    height: 0.78em;
+    flex: 0 0 auto;
+    background: currentColor;
+    -webkit-mask: var(--fa-icon) center / contain no-repeat;
+    mask: var(--fa-icon) center / contain no-repeat;
+  }
+
+  .fa-calendar {
+    --fa-icon: var(--icon-calendar);
+  }
+
+  .fa-map-pin {
+    --fa-icon: var(--icon-map-pin);
+  }
+
+  .fa-coffee {
+    --fa-icon: var(--icon-coffee);
+  }
+
+  .news-contact {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.28rem;
+  }
+
+  #news {
+    padding-top: 3.5rem;
+    padding-bottom: 3.5rem;
+  }
+
+  #news h2 {
+    margin-bottom: 0.75rem;
+    font-size: clamp(2.1rem, 4vw, 3.25rem);
+  }
+
+  #news .section-introduction {
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+  }
+
+  #news .news-group h3 {
+    margin-bottom: 0.55rem;
+    font-size: 0.82rem;
+  }
+
+  .news-archive {
+    margin-top: 1.5rem;
+    border-top: 1px solid var(--line);
+  }
+
+  .news-archive summary {
+    padding: 0.75rem 0;
+    cursor: pointer;
+    font-size: 0.82rem;
+    font-weight: 650;
+  }
+
+  .news-archive summary span {
+    color: var(--muted);
+    font-weight: 400;
+  }
+
+  .news-archive .news-item > div > p:not(.news-type) {
+    display: none;
+  }
+
+  .cv-placeholder {
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--line);
+    scroll-margin-top: 5rem;
+  }
+
+  footer {
+    padding: 2rem 0 4rem;
+    border-top: 1px solid var(--line);
+    color: var(--muted);
+    font-size: 0.85rem;
+  }
+
+  footer p {
+    margin: 0;
+  }
+
+  @media (max-width: 48rem) {
+    .navigation {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 0.65rem;
+      padding-inline: 1rem;
+    }
+
+    .navigation-links {
+      width: 100%;
+      padding-bottom: 0.1rem;
+    }
+
+    main,
+    footer {
+      width: min(calc(100% - 2rem), var(--max-width));
+    }
+
+    section:not(.introduction) {
+      grid-template-columns: 1fr;
+      gap: 0.75rem;
+      padding: 4rem 0;
+      scroll-margin-top: 7rem;
+    }
+
+    .news-item {
+      grid-template-columns: 6.3rem minmax(0, 1fr);
+      gap: 0.75rem;
+    }
+
+    .news-upcoming-layout {
+      grid-template-columns: 1fr;
+      gap: 0.65rem;
+      border-top: 0;
+    }
+
+    .news-map {
+      width: min(100%, 15rem);
+      padding-top: 0.2rem;
+    }
+
+    .news-upcoming-feed {
+      border-top: 1px solid var(--line);
+    }
+
+    .news-meta {
+      text-align: left;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :global(:root) {
+      scroll-behavior: auto;
+    }
+  }
+</style>
