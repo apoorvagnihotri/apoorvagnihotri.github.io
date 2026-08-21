@@ -18,6 +18,17 @@ npm run dev
 
 Astro prints the local URL, normally `http://localhost:4321`.
 
+To test the production build with Cloudflare Pages Functions locally, first
+initialize the local visit-counter database once, then start Wrangler:
+
+```sh
+npm run db:local:setup
+npm run dev:cloudflare
+```
+
+Wrangler normally serves the Cloudflare-local version at
+`http://localhost:8788`. The database state stays local under `.wrangler/`.
+
 ## Production check
 
 ```sh
@@ -41,6 +52,10 @@ To activate the counter during deployment:
 2. Apply `migrations/0001_visit_counter.sql` to that database.
 3. Bind it to the Pages project using the variable name `VISITS_DB`.
 4. Redeploy the Pages project.
+
+Cloudflare operations use the project-local Wrangler dependency. Authenticate
+once with `npx wrangler login`; after the Pages project and D1 binding are
+configured, deploy from the terminal with `npm run deploy:cloudflare`.
 
 The counter stores one aggregate integer. It does not store IP addresses,
 locations, user agents, or individual visit records. A browser session

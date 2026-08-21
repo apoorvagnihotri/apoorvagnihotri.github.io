@@ -1,0 +1,13 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "personal-website",
+  "pages_build_output_dir": "./dist",
+  "compatibility_date": "2026-08-21",
+  "d1_databases": [
+    {
+      "binding": "VISITS_DB",
+      "database_name": "personal-website-visits",
+      "database_id": "068f6a31-f2ae-4799-b251-43e5f55f79a5"
+    }
+  ]
+}

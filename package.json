@@ -5,15 +5,19 @@
   "private": true,
   "scripts": {
     "dev": "ASTRO_TELEMETRY_DISABLED=1 astro dev",
+    "dev:cloudflare": "npm run build && wrangler pages dev dist --persist-to .wrangler/state",
     "build": "ASTRO_TELEMETRY_DISABLED=1 astro build",
     "preview": "ASTRO_TELEMETRY_DISABLED=1 astro preview",
-    "check": "ASTRO_TELEMETRY_DISABLED=1 astro check"
+    "check": "ASTRO_TELEMETRY_DISABLED=1 astro check",
+    "db:local:setup": "wrangler d1 execute VISITS_DB --local --file=migrations/0001_visit_counter.sql --persist-to .wrangler/state",
+    "deploy:cloudflare": "npm run build && wrangler pages deploy dist --project-name personal-website --branch main"
   },
   "dependencies": {
     "astro": "^7.2.2"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
-    "typescript": "^6.0.3"
+    "typescript": "^6.0.3",
+    "wrangler": "^4.125.0"
   }
 }
