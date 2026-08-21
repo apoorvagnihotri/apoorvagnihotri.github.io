@@ -89,7 +89,16 @@ Planned, but deliberately not included in the first version:
 
 Markdown articles live in `src/content/writing`. Each article has structured
 metadata for its title, description, publication date, label, tags, and archive
-status. The initial collection contains three informal posts migrated from the
+status. Set `draft: true` in an article's frontmatter while it is unfinished:
+
+```yaml
+draft: true
+```
+
+Drafts remain visible and carry a **Draft** label during `npm run dev`, but
+production builds omit them from the homepage, the writing archive, and the
+generated article routes. Remove the field or set it to `false` to publish the
+article. The initial collection contains three informal posts migrated from the
 previous Jekyll website.
 
 Typography references for a later design iteration are recorded in

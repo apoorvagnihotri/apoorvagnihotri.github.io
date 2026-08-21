@@ -23,7 +23,13 @@ const formatDate = (date: Date) =>
       <li>
         <article>
           <div class="writing-meta">
-            <span>{entry.data.label}</span>
+            <span>
+              {
+                entry.data.draft
+                  ? `Draft · ${entry.data.label}`
+                  : entry.data.label
+              }
+            </span>
             <time datetime={entry.data.publishedAt.toISOString()}>
               {formatDate(entry.data.publishedAt)}
             </time>

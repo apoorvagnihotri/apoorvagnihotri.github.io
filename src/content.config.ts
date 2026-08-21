@@ -11,6 +11,7 @@ const writing = defineCollection({
     label: z.string(),
     tags: z.array(z.string()).default([]),
     archived: z.boolean().default(false),
+    draft: z.boolean().default(false),
   }),
 });
 

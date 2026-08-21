@@ -5,9 +5,9 @@ import SiteFooter from "../../components/SiteFooter.astro";
 import WritingList from "../../components/WritingList.astro";
 import { siteConfig, withBase } from "../../config/site";
 
-const entries = (await getCollection("writing")).sort(
-  (a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime(),
-);
+const entries = (await getCollection("writing"))
+  .filter((entry) => import.meta.env.DEV || !entry.data.draft)
+  .sort((a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime());
 ---
 
 <!doctype html>

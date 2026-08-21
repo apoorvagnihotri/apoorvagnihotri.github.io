@@ -24,6 +24,7 @@ const navigation = [
 ];
 
 const writingEntries = (await getCollection("writing"))
+  .filter((entry) => import.meta.env.DEV || !entry.data.draft)
   .sort((a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime())
   .slice(0, 3);
 
