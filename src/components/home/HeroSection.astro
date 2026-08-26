@@ -1,0 +1,58 @@
+---
+import { siteConfig } from "../../config/site";
+---
+
+<section class="introduction" id="top" aria-labelledby="intro-heading">
+  <h1 id="intro-heading">{siteConfig.name}</h1>
+  <p class="lede">
+    I am Apoorv, born in Jabalpur, India. I have always been facinated with computers and enjoy applying machine learning to real world problems. This website is a collection of my current research interests, past collaborations, ramblings and when and where you might be able to find me IRL.
+  </p>
+  <p class="summary">
+    I recently completed a master&apos;s degree in Machine Learning at the
+    University of Tübingen and am{" "}
+    <strong class="phd-status">currently actively applying for PhD positions</strong>. I
+    am broadly interested in using AI to enable scientific discovery,
+    with a particular affinity for applications in healthcare.
+  </p>
+</section>
+
+<style>
+  .introduction {
+    display: block;
+    min-height: min(70vh, 44rem);
+    padding: clamp(6rem, 14vw, 11rem) 0 5rem;
+  }
+
+  h1 {
+    max-width: 13ch;
+    margin: 0.25rem 0 1.5rem;
+    font-family: var(--font-display);
+    font-size: clamp(3.25rem, 9vw, 7.5rem);
+    font-weight: 400;
+    letter-spacing: -0.025em;
+    line-height: 0.95;
+  }
+
+  .lede {
+    max-width: 44rem;
+    margin: 0;
+    font-size: clamp(1.25rem, 2.4vw, 1.75rem);
+    line-height: 1.45;
+  }
+
+  .summary {
+    max-width: 42rem;
+    margin: 2rem 0 0;
+    color: var(--muted);
+  }
+
+  .phd-status {
+    display: inline;
+    padding: 0.08em 0.28em;
+    background: #f6c8c5;
+    color: #752f2c;
+    font-weight: 750;
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+  }
+</style>

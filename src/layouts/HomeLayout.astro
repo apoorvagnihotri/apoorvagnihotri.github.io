@@ -1,0 +1,31 @@
+---
+import HomeHeader from "../components/site/HomeHeader.astro";
+import BaseLayout from "./BaseLayout.astro";
+
+type Props = {
+  title: string;
+  description: string;
+};
+
+const { title, description } = Astro.props;
+---
+
+<BaseLayout title={title} description={description}>
+  <HomeHeader />
+  <main id="main-content">
+    <slot />
+  </main>
+</BaseLayout>
+
+<style>
+  main {
+    width: min(calc(100% - 3rem), var(--max-width));
+    margin: 0 auto;
+  }
+
+  @media (max-width: 48rem) {
+    main {
+      width: min(calc(100% - 2rem), var(--max-width));
+    }
+  }
+</style>

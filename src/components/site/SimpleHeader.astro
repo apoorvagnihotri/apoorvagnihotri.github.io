@@ -1,0 +1,44 @@
+---
+import { siteConfig } from "../../config/site";
+
+type Props = {
+  ariaLabel: string;
+  homeHref: string;
+  secondaryHref: string;
+  secondaryLabel: string;
+};
+
+const { ariaLabel, homeHref, secondaryHref, secondaryLabel } = Astro.props;
+---
+
+<header class="simple-header">
+  <nav aria-label={ariaLabel}>
+    <a class="site-name" href={homeHref}>{siteConfig.name}</a>
+    <a href={secondaryHref}>{secondaryLabel}</a>
+  </nav>
+</header>
+
+<style>
+  .simple-header {
+    border-bottom: 1px solid var(--line);
+  }
+
+  nav {
+    display: flex;
+    width: min(calc(100% - 2rem), var(--max-width));
+    margin: 0 auto;
+    padding: 0.9rem 0;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    font-size: 0.9rem;
+  }
+
+  a {
+    text-decoration: none;
+  }
+
+  .site-name {
+    font-weight: 650;
+  }
+</style>

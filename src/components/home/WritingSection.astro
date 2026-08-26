@@ -1,0 +1,32 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { withBase } from "../../config/site";
+import WritingList from "../WritingList.astro";
+import HomeSection from "./HomeSection.astro";
+
+type Props = {
+  entries: CollectionEntry<"writing">[];
+};
+
+const { entries } = Astro.props;
+---
+
+<HomeSection
+  id="writing"
+  number="04"
+  title="Writing"
+  introduction="Literature reviews, research notes, and web-native explanations of ideas I am studying, alongside informal writing preserved from my earlier website."
+>
+  <WritingList entries={entries} />
+  <p class="view-all">
+    <a href={withBase("/writing/")}>View all writing →</a>
+  </p>
+</HomeSection>
+
+<style>
+  .view-all {
+    margin: 1.5rem 0 0;
+    font-size: 0.9rem;
+    font-weight: 650;
+  }
+</style>

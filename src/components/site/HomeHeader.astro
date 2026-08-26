@@ -1,0 +1,304 @@
+---
+import { siteConfig } from "../../config/site";
+
+const navigation = [
+  { label: "Research", href: "#research" },
+  { label: "About", href: "#about" },
+  { label: "Work", href: "#work" },
+  { label: "Writing", href: "#writing" },
+  { label: "News", href: "#news" },
+  { label: "Contact", href: "#contact" },
+  { label: "CV", href: "#cv" },
+];
+---
+
+<header class="site-header">
+  <nav class="navigation" aria-label="Primary navigation">
+    <a class="site-name" href="#top" data-section-link="top">
+      {siteConfig.name}
+    </a>
+    <div class="navigation-links" data-section-navigation>
+      <span
+        class="navigation-indicator"
+        data-navigation-indicator
+        aria-hidden="true"
+      ></span>
+      {
+        navigation.map((item, index) => (
+          <a
+            href={item.href}
+            data-section-link={item.href.slice(1)}
+            data-section-step={String(index + 1).padStart(2, "0")}
+          >
+            {item.label}
+          </a>
+        ))
+      }
+    </div>
+  </nav>
+</header>
+
+<script>
+  const siteHeader = document.querySelector<HTMLElement>(".site-header");
+  const sectionNavigation = document.querySelector<HTMLElement>(
+    "[data-section-navigation]",
+  );
+  const navigationIndicator = document.querySelector<HTMLElement>(
+    "[data-navigation-indicator]",
+  );
+  const sectionLinks = Array.from(
+    document.querySelectorAll<HTMLAnchorElement>("[data-section-link]"),
+  );
+  const navigationLinks = sectionLinks.filter((link) =>
+    sectionNavigation?.contains(link),
+  );
+  const sectionTargets = sectionLinks
+    .map((link) => {
+      const id = link.dataset.sectionLink;
+      const target = id ? document.getElementById(id) : null;
+      return id && target ? { id, target } : null;
+    })
+    .filter(
+      (
+        item,
+      ): item is {
+        id: string;
+        target: HTMLElement;
+      } => Boolean(item),
+    );
+  let activeSection = "";
+  let navigationFrame = 0;
+
+  const positionNavigationIndicator = (link: HTMLAnchorElement | undefined) => {
+    if (!sectionNavigation || !navigationIndicator || !link) {
+      navigationIndicator?.removeAttribute("data-visible");
+      return;
+    }
+
+    sectionNavigation.style.setProperty(
+      "--navigation-indicator-x",
+      `${link.offsetLeft}px`,
+    );
+    sectionNavigation.style.setProperty(
+      "--navigation-indicator-width",
+      `${link.offsetWidth}px`,
+    );
+    navigationIndicator.dataset.visible = "true";
+  };
+
+  const revealActiveNavigationLink = (link: HTMLAnchorElement) => {
+    if (!sectionNavigation) return;
+    const left = link.offsetLeft;
+    const right = left + link.offsetWidth;
+    const visibleLeft = sectionNavigation.scrollLeft;
+    const visibleRight = visibleLeft + sectionNavigation.clientWidth;
+
+    if (left < visibleLeft || right > visibleRight) {
+      const reduceMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)",
+      ).matches;
+      sectionNavigation.scrollTo({
+        left: left - (sectionNavigation.clientWidth - link.offsetWidth) / 2,
+        behavior: reduceMotion ? "auto" : "smooth",
+      });
+    }
+  };
+
+  const setActiveSection = (id: string, reveal = false) => {
+    if (id === activeSection) return;
+    activeSection = id;
+
+    sectionLinks.forEach((link) => {
+      if (link.dataset.sectionLink === id) {
+        link.setAttribute("aria-current", "location");
+      } else {
+        link.removeAttribute("aria-current");
+      }
+    });
+
+    const activeLink = navigationLinks.find(
+      (link) => link.dataset.sectionLink === id,
+    );
+    positionNavigationIndicator(activeLink);
+    if (reveal && activeLink) revealActiveNavigationLink(activeLink);
+  };
+
+  const updateActiveSection = () => {
+    navigationFrame = 0;
+    const headerHeight = siteHeader?.offsetHeight ?? 0;
+    const readingLine = window.scrollY + headerHeight + window.innerHeight * 0.22;
+    let nextSection = sectionTargets[0]?.id ?? "top";
+
+    sectionTargets.forEach(({ id, target }) => {
+      if (target.offsetTop <= readingLine) nextSection = id;
+    });
+
+    setActiveSection(nextSection, true);
+  };
+
+  const requestNavigationUpdate = () => {
+    if (navigationFrame) return;
+    navigationFrame = window.requestAnimationFrame(updateActiveSection);
+  };
+
+  sectionLinks.forEach((link) => {
+    link.addEventListener("click", () => {
+      const id = link.dataset.sectionLink;
+      if (id) setActiveSection(id);
+    });
+  });
+  window.addEventListener("scroll", requestNavigationUpdate, { passive: true });
+  window.addEventListener("resize", () => {
+    const activeLink = navigationLinks.find(
+      (link) => link.dataset.sectionLink === activeSection,
+    );
+    positionNavigationIndicator(activeLink);
+    requestNavigationUpdate();
+  });
+  updateActiveSection();
+</script>
+
+<style>
+  .site-header {
+    position: sticky;
+    z-index: 5;
+    top: 0;
+    border-bottom: 1px solid var(--line);
+    background: color-mix(in srgb, var(--background) 94%, transparent);
+    backdrop-filter: blur(8px);
+  }
+
+  .navigation {
+    display: flex;
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0.9rem 1.5rem;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+  }
+
+  .site-name {
+    flex: none;
+    font-weight: 650;
+    text-decoration: none;
+  }
+
+  .navigation-links {
+    --navigation-indicator-width: 0px;
+    --navigation-indicator-x: 0px;
+    position: relative;
+    display: flex;
+    overflow-x: auto;
+    padding: 0.18rem 0 0.42rem;
+    align-items: center;
+    gap: 0.25rem;
+    isolation: isolate;
+    scrollbar-width: none;
+  }
+
+  .navigation-links::before {
+    position: absolute;
+    z-index: -2;
+    right: 0.55rem;
+    bottom: 0.23rem;
+    left: 0.55rem;
+    height: 1px;
+    background: var(--line);
+    content: "";
+  }
+
+  .navigation-links::-webkit-scrollbar {
+    display: none;
+  }
+
+  .navigation-links a {
+    position: relative;
+    z-index: 1;
+    flex: none;
+    padding: 0.3rem 0.55rem 0.38rem;
+    color: var(--muted);
+    font-size: 0.82rem;
+    line-height: 1;
+    text-decoration: none;
+    transition: color 180ms ease;
+  }
+
+  .navigation-links a::after {
+    position: absolute;
+    bottom: -0.2rem;
+    left: 50%;
+    width: 1px;
+    height: 0.3rem;
+    background: var(--muted);
+    content: "";
+    opacity: 0.42;
+    transform: translateX(-50%);
+  }
+
+  .navigation-links a:hover,
+  .navigation-links a[aria-current="location"] {
+    color: var(--text);
+  }
+
+  .navigation-links a[aria-current="location"] {
+    font-weight: 650;
+  }
+
+  .navigation-indicator {
+    position: absolute;
+    z-index: -1;
+    top: 0.06rem;
+    left: 0;
+    width: var(--navigation-indicator-width);
+    height: 1.62rem;
+    border: 1px solid color-mix(in srgb, var(--text) 78%, transparent);
+    background: color-mix(in srgb, var(--line) 64%, transparent);
+    opacity: 0;
+    pointer-events: none;
+    transform: translate3d(var(--navigation-indicator-x), 0, 0);
+    transition:
+      width 360ms cubic-bezier(0.22, 1, 0.36, 1),
+      transform 480ms cubic-bezier(0.16, 1, 0.3, 1),
+      opacity 140ms ease;
+  }
+
+  .navigation-indicator::after {
+    position: absolute;
+    bottom: -0.36rem;
+    left: 50%;
+    width: 0.36rem;
+    height: 0.36rem;
+    border: 2px solid var(--background);
+    border-radius: 50%;
+    background: var(--text);
+    box-shadow: 0 0 0 1px var(--text);
+    content: "";
+    transform: translateX(-50%);
+  }
+
+  .navigation-indicator[data-visible="true"] {
+    opacity: 1;
+  }
+
+  @media (max-width: 48rem) {
+    .navigation {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 0.65rem;
+      padding-inline: 1rem;
+    }
+
+    .navigation-links {
+      width: 100%;
+      padding-bottom: 0.1rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .navigation-indicator,
+    .navigation-links a {
+      transition: none;
+    }
+  }
+</style>

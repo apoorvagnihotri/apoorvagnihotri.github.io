@@ -1,0 +1,188 @@
+---
+import { withBase } from "../../../config/site";
+import { newsItems, type NewsItem } from "../../../data/news";
+import type { MappedNewsItem } from "../../../lib/news";
+import HomeSection from "../HomeSection.astro";
+import NewsItemComponent from "./NewsItem.astro";
+import NewsMap from "./NewsMap.astro";
+
+const mappedNewsItems = newsItems.filter(
+  (item): item is MappedNewsItem => Boolean(item.mapCoordinates),
+);
+
+const iconVariables = [
+  `--icon-calendar: url("${withBase("/icons/calendar.svg")}")`,
+  `--icon-map-pin: url("${withBase("/icons/map-pin.svg")}")`,
+  `--icon-coffee: url("${withBase("/icons/coffee.svg")}")`,
+].join("; ");
+---
+
+<HomeSection
+  id="news"
+  number="05"
+  title="News"
+  introduction="Upcoming events and recent milestones. Older entries remain in a compact archive."
+  wide
+  compact
+>
+  <div class="news" style={iconVariables}>
+    <div class="news-group">
+      <h3>Current &amp; upcoming</h3>
+      <div class="news-upcoming-layout">
+        <NewsMap items={mappedNewsItems} />
+
+        <div class="news-upcoming-feed">
+          <ol class="news-list" data-news-list="upcoming">
+            {newsItems.map((item: NewsItem) => <NewsItemComponent item={item} />)}
+          </ol>
+          <p class="empty-state" data-news-empty="upcoming">
+            No current or upcoming entries.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="news-group">
+      <h3>Recent</h3>
+      <ol class="news-list" data-news-list="recent"></ol>
+      <p class="empty-state" data-news-empty="recent">No recent entries.</p>
+    </div>
+
+    <details class="news-archive">
+      <summary>Archive <span data-archive-count></span></summary>
+      <ol class="news-list" data-news-list="archive"></ol>
+      <p class="empty-state" data-news-empty="archive">No archived entries.</p>
+    </details>
+  </div>
+</HomeSection>
+
+<script>
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const upcomingList = document.querySelector<HTMLOListElement>(
+    '[data-news-list="upcoming"]',
+  );
+  const recentList = document.querySelector<HTMLOListElement>(
+    '[data-news-list="recent"]',
+  );
+  const archiveList = document.querySelector<HTMLOListElement>(
+    '[data-news-list="archive"]',
+  );
+
+  const recentCutoff = new Date(today);
+  recentCutoff.setMonth(recentCutoff.getMonth() - 18);
+
+  const items = Array.from(document.querySelectorAll<HTMLElement>(".news-item"));
+  const timestamp = (item: HTMLElement, field: "start" | "end") =>
+    new Date(`${item.dataset[field]}T00:00:00`).getTime();
+
+  const upcoming = items
+    .filter((item) => timestamp(item, "end") >= today.getTime())
+    .sort((a, b) => timestamp(a, "start") - timestamp(b, "start"));
+  const recent = items
+    .filter(
+      (item) =>
+        timestamp(item, "end") < today.getTime() &&
+        timestamp(item, "end") >= recentCutoff.getTime(),
+    )
+    .sort((a, b) => timestamp(b, "end") - timestamp(a, "end"));
+  const archive = items
+    .filter((item) => timestamp(item, "end") < recentCutoff.getTime())
+    .sort((a, b) => timestamp(b, "end") - timestamp(a, "end"));
+
+  upcoming.forEach((item) => upcomingList?.append(item));
+  recent.forEach((item) => recentList?.append(item));
+  archive.forEach((item) => archiveList?.append(item));
+
+  const archiveCount = document.querySelector<HTMLElement>("[data-archive-count]");
+  if (archiveCount) archiveCount.textContent = `(${archive.length})`;
+
+  const mapMarkers = Array.from(
+    document.querySelectorAll<HTMLElement>("[data-news-map-marker]"),
+  );
+  mapMarkers.forEach((marker) => {
+    marker.hidden = timestamp(marker, "end") < today.getTime();
+  });
+
+  const newsMap = document.querySelector<HTMLElement>("[data-news-map]");
+  if (newsMap) newsMap.hidden = mapMarkers.every((marker) => marker.hidden);
+
+  document.querySelectorAll<HTMLElement>("[data-news-empty]").forEach((empty) => {
+    const list = document.querySelector(
+      `[data-news-list="${empty.dataset.newsEmpty}"]`,
+    );
+    empty.hidden = Boolean(list?.children.length);
+  });
+</script>
+
+<style>
+  .news-group {
+    margin-top: 1.75rem;
+  }
+
+  .news-group h3 {
+    margin: 0 0 0.55rem;
+    font-size: 0.82rem;
+  }
+
+  .news-upcoming-layout {
+    display: grid;
+    grid-template-columns: 12rem minmax(0, 1fr);
+    gap: 1.25rem;
+    align-items: start;
+    border-top: 1px solid var(--line);
+  }
+
+  .news-upcoming-feed :global(.news-item:first-child) {
+    border-top: 0;
+  }
+
+  .news-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .empty-state {
+    margin-top: 0;
+    padding: 1rem 0;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+
+  .news-archive {
+    margin-top: 1.5rem;
+    border-top: 1px solid var(--line);
+  }
+
+  .news-archive summary {
+    padding: 0.75rem 0;
+    cursor: pointer;
+    font-size: 0.82rem;
+    font-weight: 650;
+  }
+
+  .news-archive summary span {
+    color: var(--muted);
+    font-weight: 400;
+  }
+
+  .news-archive :global(.news-item-description) {
+    display: none;
+  }
+
+  @media (max-width: 48rem) {
+    .news-upcoming-layout {
+      grid-template-columns: 1fr;
+      gap: 0.65rem;
+      border-top: 0;
+    }
+
+    .news-upcoming-feed {
+      border-top: 1px solid var(--line);
+    }
+  }
+</style>

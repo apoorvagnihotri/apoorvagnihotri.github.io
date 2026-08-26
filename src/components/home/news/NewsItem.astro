@@ -1,0 +1,151 @@
+---
+import { resolveSiteHref } from "../../../config/site";
+import type { NewsItem } from "../../../data/news";
+import { formatNewsDate } from "../../../lib/news";
+
+type Props = {
+  item: NewsItem;
+};
+
+const { item } = Astro.props;
+---
+
+<li
+  class="news-item"
+  data-start={item.startDate}
+  data-end={item.endDate ?? item.startDate}
+>
+  <div>
+    <p class="news-type">{item.type}</p>
+    <h4>
+      {
+        item.href ? (
+          <a href={resolveSiteHref(item.href)}>{item.title}</a>
+        ) : (
+          item.title
+        )
+      }
+    </h4>
+    {
+      item.description && (
+        <p class="news-item-description">
+          {item.description}{" "}
+          {item.contactHref && item.contactLabel && (
+            <a class="news-contact" href={item.contactHref}>
+              <span class="fa-icon fa-coffee" aria-hidden="true" />
+              {item.contactLabel}
+            </a>
+          )}
+        </p>
+      )
+    }
+  </div>
+  <p class="news-meta">
+    <span class="news-meta-line">
+      <span class="fa-icon fa-calendar" aria-hidden="true" />
+      <span>
+        <time datetime={item.startDate}>
+          {formatNewsDate(item.startDate, item.datePrecision)}
+        </time>
+        {item.endDate && `–${formatNewsDate(item.endDate, item.datePrecision)}`}
+      </span>
+    </span>
+    {
+      item.location && (
+        <span class="news-meta-line">
+          <span class="fa-icon fa-map-pin" aria-hidden="true" />
+          <span>{item.location}</span>
+        </span>
+      )
+    }
+  </p>
+</li>
+
+<style>
+  .news-item {
+    display: grid;
+    grid-template-columns: minmax(7.5rem, 0.25fr) minmax(0, 1fr);
+    gap: 1.25rem;
+    padding: 0.75rem 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .news-type {
+    display: inline;
+    margin: 0 0.5rem 0 0;
+    color: var(--muted);
+    font-size: 0.66rem;
+    font-weight: 650;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  h4 {
+    display: inline;
+    margin: 0;
+    font-size: 0.95rem;
+  }
+
+  .news-item-description {
+    margin: 0.2rem 0 0;
+    color: var(--muted);
+    font-size: 0.84rem;
+    line-height: 1.45;
+  }
+
+  .news-meta {
+    grid-column: 1;
+    grid-row: 1;
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.76rem;
+    font-variant-numeric: tabular-nums;
+    line-height: 1.45;
+    text-align: left;
+  }
+
+  .news-meta-line {
+    display: flex;
+    align-items: baseline;
+    gap: 0.3rem;
+  }
+
+  .news-meta-line + .news-meta-line {
+    margin-top: 0.06rem;
+  }
+
+  .fa-icon {
+    display: inline-block;
+    width: 0.78em;
+    height: 0.78em;
+    flex: 0 0 auto;
+    background: currentColor;
+    -webkit-mask: var(--fa-icon) center / contain no-repeat;
+    mask: var(--fa-icon) center / contain no-repeat;
+  }
+
+  .fa-calendar {
+    --fa-icon: var(--icon-calendar);
+  }
+
+  .fa-map-pin {
+    --fa-icon: var(--icon-map-pin);
+  }
+
+  .fa-coffee {
+    --fa-icon: var(--icon-coffee);
+  }
+
+  .news-contact {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.28rem;
+  }
+
+  @media (max-width: 48rem) {
+    .news-item {
+      grid-template-columns: 6.3rem minmax(0, 1fr);
+      gap: 0.75rem;
+    }
+  }
+</style>

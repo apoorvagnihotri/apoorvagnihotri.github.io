@@ -1,0 +1,48 @@
+---
+import AnalyticsConsent from "../components/AnalyticsConsent.astro";
+import SiteFooter from "../components/SiteFooter.astro";
+import { siteConfig } from "../config/site";
+import "../styles/global.css";
+
+type Props = {
+  title: string;
+  description: string;
+  maxWidth?: string;
+  bodyLineHeight?: string;
+  skipHref?: string;
+  skipLabel?: string;
+  footerBackHref?: string;
+  footerBackLabel?: string;
+};
+
+const {
+  title,
+  description,
+  maxWidth = "72rem",
+  bodyLineHeight = "1.65",
+  skipHref = "#main-content",
+  skipLabel = "Skip to content",
+  footerBackHref,
+  footerBackLabel,
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content={description} />
+    <title>{title}</title>
+  </head>
+  <body style={`--max-width: ${maxWidth}; --body-line-height: ${bodyLineHeight};`}>
+    <a class="skip-link" href={skipHref}>{skipLabel}</a>
+    <slot />
+    <SiteFooter
+      name={siteConfig.name}
+      backHref={footerBackHref}
+      backLabel={footerBackLabel}
+    />
+    <AnalyticsConsent measurementId={siteConfig.analytics.googleMeasurementId} />
+  </body>
+</html>

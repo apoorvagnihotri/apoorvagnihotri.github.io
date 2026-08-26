@@ -1,0 +1,101 @@
+---
+type Props = {
+  id: string;
+  number: string;
+  title: string;
+  introduction: string;
+  wide?: boolean;
+  compact?: boolean;
+};
+
+const {
+  id,
+  number,
+  title,
+  introduction,
+  wide = false,
+  compact = false,
+} = Astro.props;
+const headingId = `${id}-heading`;
+---
+
+<section
+  id={id}
+  class:list={["home-section", { "home-section--wide": wide, "home-section--compact": compact }]}
+  aria-labelledby={headingId}
+>
+  <p class="section-number" aria-hidden="true">{number}</p>
+  <div class="section-content">
+    <h2 id={headingId}>{title}</h2>
+    <p class="section-introduction">{introduction}</p>
+    <slot />
+  </div>
+</section>
+
+<style>
+  .home-section {
+    display: grid;
+    grid-template-columns: minmax(2rem, 0.25fr) minmax(0, 1fr);
+    gap: 2rem;
+    padding: 5rem 0;
+    border-top: 1px solid var(--line);
+    scroll-margin-top: 4.5rem;
+  }
+
+  .section-number {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.75rem;
+    font-weight: 650;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .section-content {
+    max-width: 48rem;
+  }
+
+  .home-section--wide .section-content {
+    width: 100%;
+    max-width: 64rem;
+  }
+
+  h2 {
+    margin: -0.15em 0 1.5rem;
+    font-family: var(--font-display);
+    font-size: clamp(2.1rem, 5vw, 4rem);
+    font-weight: 400;
+    letter-spacing: -0.025em;
+    line-height: 1.05;
+  }
+
+  .section-introduction {
+    max-width: 42rem;
+    margin: 0 0 1.5rem;
+    font-size: 1.15rem;
+  }
+
+  .home-section--compact {
+    padding-top: 3.5rem;
+    padding-bottom: 3.5rem;
+  }
+
+  .home-section--compact h2 {
+    margin-bottom: 0.75rem;
+    font-size: clamp(2.1rem, 4vw, 3.25rem);
+  }
+
+  .home-section--compact .section-introduction {
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+  }
+
+  @media (max-width: 48rem) {
+    .home-section {
+      grid-template-columns: 1fr;
+      gap: 0.75rem;
+      padding: 4rem 0;
+      scroll-margin-top: 7rem;
+    }
+  }
+</style>
