@@ -1,36 +1,110 @@
 ---
-import EmptyState from "./EmptyState.astro";
+import { withBase } from "../../config/site";
 import HomeSection from "./HomeSection.astro";
+
+const contactLinks = [
+  {
+    label: "Email",
+    value: "apoorvagni@gmail.com",
+    href: "mailto:apoorvagni@gmail.com",
+  },
+  {
+    label: "LinkedIn",
+    value: "linkedin.com/in/apoorvagni",
+    href: "https://www.linkedin.com/in/apoorvagni/",
+  },
+  {
+    label: "GitHub",
+    value: "github.com/apoorvagnihotri",
+    href: "https://github.com/apoorvagnihotri",
+  },
+  {
+    label: "Google Scholar",
+    value: "Publication profile",
+    href: "https://scholar.google.com/citations?user=MYw701EAAAAJ&hl=en",
+  },
+  {
+    label: "X",
+    value: "@ApoorvAgnihotr2",
+    href: "https://x.com/ApoorvAgnihotr2",
+  },
+];
 ---
 
 <HomeSection
   id="contact"
   number="06"
   title="Contact"
-  introduction="Email, GitHub, academic profiles, and social links will go here."
+  introduction="Email, code, publications, and social profiles."
 >
-  <EmptyState>Contact details have not been added yet.</EmptyState>
+  <ul class="contact-list">
+    {
+      contactLinks.map((contact) => (
+        <li>
+          <span>{contact.label}</span>
+          <a href={contact.href} rel={contact.href.startsWith("http") ? "me" : undefined}>
+            {contact.value}
+          </a>
+        </li>
+      ))
+    }
+  </ul>
 
-  <div id="cv" class="cv-placeholder">
+  <div id="cv" class="cv">
     <h3>Curriculum vitae</h3>
-    <p>The CV will be linked here when it is ready.</p>
+    <p>
+      <a href={withBase("/files/apoorv-agnihotri-cv.pdf")}>
+        View or download my CV (PDF, 2 pages)
+      </a>
+    </p>
   </div>
 </HomeSection>
 
 <style>
-  .cv-placeholder {
+  .contact-list {
+    margin: 0;
+    padding: 0;
+    border-bottom: 1px solid var(--line);
+    list-style: none;
+  }
+
+  .contact-list li {
+    display: grid;
+    grid-template-columns: minmax(7rem, 0.28fr) minmax(0, 1fr);
+    gap: 1rem;
+    padding: 0.7rem 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .contact-list span {
+    color: var(--muted);
+    font-size: 0.85rem;
+  }
+
+  .contact-list a {
+    overflow-wrap: anywhere;
+  }
+
+  .cv {
     margin-top: 3rem;
     padding-top: 1.5rem;
     border-top: 1px solid var(--line);
     scroll-margin-top: 5rem;
   }
 
-  .cv-placeholder h3 {
+  .cv h3 {
     margin: 0 0 1rem;
     font-size: 1rem;
   }
 
-  .cv-placeholder p {
+  .cv p {
     margin: 0;
+  }
+
+  @media (max-width: 34rem) {
+    .contact-list li {
+      grid-template-columns: 1fr;
+      gap: 0.15rem;
+    }
   }
 </style>
