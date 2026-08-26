@@ -1,5 +1,6 @@
 ---
 import { siteConfig } from "../../config/site";
+import ProfileLinks from "../site/ProfileLinks.astro";
 ---
 
 <section class="introduction" id="top" aria-labelledby="intro-heading">
@@ -17,6 +18,9 @@ import { siteConfig } from "../../config/site";
     am broadly interested in using AI to enable scientific discovery,
     with a particular affinity for applications in healthcare.
   </p>
+  <div class="profile-links">
+    <ProfileLinks label="Primary contact and profiles" />
+  </div>
 </section>
 
 <style>
@@ -47,6 +51,10 @@ import { siteConfig } from "../../config/site";
     max-width: 42rem;
     margin: 2rem 0 0;
     color: var(--muted);
+  }
+
+  .profile-links {
+    margin-top: 2.25rem;
   }
 
   .phd-status {

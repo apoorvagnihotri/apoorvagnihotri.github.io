@@ -1,0 +1,117 @@
+---
+import { withBase } from "../../config/site";
+import ProfileIcon from "./ProfileIcon.astro";
+
+type IconName = "email" | "linkedin" | "github" | "scholar" | "x" | "cv";
+
+type ProfileLink = {
+  label: string;
+  href: string;
+  icon: IconName;
+  external?: boolean;
+};
+
+type Props = {
+  label?: string;
+};
+
+const { label = "Contact and profiles" } = Astro.props;
+
+const profileLinks: ProfileLink[] = [
+  {
+    label: "Email",
+    href: "mailto:apoorvagni@gmail.com",
+    icon: "email",
+  },
+  {
+    label: "LinkedIn",
+    href: "https://www.linkedin.com/in/apoorvagni/",
+    icon: "linkedin",
+    external: true,
+  },
+  {
+    label: "GitHub",
+    href: "https://github.com/apoorvagnihotri",
+    icon: "github",
+    external: true,
+  },
+  {
+    label: "Scholar",
+    href: "https://scholar.google.com/citations?user=MYw701EAAAAJ&hl=en",
+    icon: "scholar",
+    external: true,
+  },
+  {
+    label: "X",
+    href: "https://x.com/ApoorvAgnihotr2",
+    icon: "x",
+    external: true,
+  },
+  {
+    label: "CV",
+    href: withBase("/files/apoorv-agnihotri-cv.pdf"),
+    icon: "cv",
+  },
+];
+---
+
+<nav class="profile-links" aria-label={label}>
+  {
+    profileLinks.map((profile) => (
+      <a href={profile.href} rel={profile.external ? "me" : undefined}>
+        <ProfileIcon name={profile.icon} />
+        <span>{profile.label}</span>
+      </a>
+    ))
+  }
+</nav>
+
+<style>
+  .profile-links {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(5.75rem, 1fr));
+    gap: 0.5rem;
+    width: min(100%, 42rem);
+  }
+
+  .profile-links a {
+    display: flex;
+    min-height: 4.25rem;
+    padding: 0.65rem 0.5rem;
+    border: 1px solid var(--line);
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 0.35rem;
+    color: var(--muted);
+    font-size: 0.78rem;
+    font-weight: 650;
+    line-height: 1;
+    text-decoration: none;
+    transition:
+      border-color 160ms ease,
+      background 160ms ease,
+      color 160ms ease,
+      transform 160ms ease;
+  }
+
+  .profile-links a:hover,
+  .profile-links a:focus-visible {
+    border-color: color-mix(in srgb, var(--highlight-text) 42%, var(--line));
+    background: var(--highlight-background);
+    color: var(--highlight-text);
+    transform: translateY(-1px);
+  }
+
+  @media (max-width: 34rem) {
+    .profile-links {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .profile-links a {
+      transition: none;
+    }
+  }
+</style>
