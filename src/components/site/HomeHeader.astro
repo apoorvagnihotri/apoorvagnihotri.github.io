@@ -7,7 +7,6 @@ const navigation = [
   { label: "Work", href: "#work" },
   { label: "Writing", href: "#writing" },
   { label: "News", href: "#news" },
-  { label: "Contact", href: "#contact" },
   { label: "CV", href: "#cv" },
 ];
 ---
@@ -129,9 +128,11 @@ const navigation = [
     const readingLine = window.scrollY + headerHeight + window.innerHeight * 0.22;
     let nextSection = sectionTargets[0]?.id ?? "top";
 
-    sectionTargets.forEach(({ id, target }) => {
-      if (target.offsetTop <= readingLine) nextSection = id;
-    });
+    [...sectionTargets]
+      .sort((a, b) => a.target.offsetTop - b.target.offsetTop)
+      .forEach(({ id, target }) => {
+        if (target.offsetTop <= readingLine) nextSection = id;
+      });
 
     setActiveSection(nextSection, true);
   };

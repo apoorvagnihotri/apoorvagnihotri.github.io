@@ -1,7 +1,6 @@
 ---
 import { getCollection } from "astro:content";
 import AboutSection from "../components/home/AboutSection.astro";
-import ContactSection from "../components/home/ContactSection.astro";
 import HeroSection from "../components/home/HeroSection.astro";
 import NewsSection from "../components/home/news/NewsSection.astro";
 import ResearchSection from "../components/home/ResearchSection.astro";
@@ -25,5 +24,4 @@ const writingEntries = (await getCollection("writing"))
   <WorkSection />
   <WritingSection entries={writingEntries} />
   <NewsSection />
-  <ContactSection />
 </HomeLayout>

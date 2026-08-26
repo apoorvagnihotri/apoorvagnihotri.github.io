@@ -18,7 +18,7 @@ import ProfileLinks from "../site/ProfileLinks.astro";
     am broadly interested in using AI to enable scientific discovery,
     with a particular affinity for applications in healthcare.
   </p>
-  <div class="profile-links">
+  <div class="profile-links-wrap">
     <ProfileLinks label="Primary contact and profiles" />
   </div>
 </section>
@@ -26,8 +26,7 @@ import ProfileLinks from "../site/ProfileLinks.astro";
 <style>
   .introduction {
     display: block;
-    min-height: min(70vh, 44rem);
-    padding: clamp(6rem, 14vw, 11rem) 0 5rem;
+    padding: clamp(6rem, 13vw, 9rem) 0 clamp(3.5rem, 6vw, 4rem);
   }
 
   h1 {
@@ -53,8 +52,9 @@ import ProfileLinks from "../site/ProfileLinks.astro";
     color: var(--muted);
   }
 
-  .profile-links {
-    margin-top: 2.25rem;
+  .profile-links-wrap {
+    width: min(100%, 42rem);
+    margin-top: 1.75rem;
   }
 
   .phd-status {

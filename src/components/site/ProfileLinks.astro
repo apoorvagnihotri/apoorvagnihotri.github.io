@@ -58,7 +58,11 @@ const profileLinks: ProfileLink[] = [
 <nav class="profile-links" aria-label={label}>
   {
     profileLinks.map((profile) => (
-      <a href={profile.href} rel={profile.external ? "me" : undefined}>
+      <a
+        id={profile.icon === "cv" ? "cv" : undefined}
+        href={profile.href}
+        rel={profile.external ? "me" : undefined}
+      >
         <ProfileIcon name={profile.icon} />
         <span>{profile.label}</span>
       </a>
@@ -93,6 +97,10 @@ const profileLinks: ProfileLink[] = [
       background 160ms ease,
       color 160ms ease,
       transform 160ms ease;
+  }
+
+  .profile-links a#cv {
+    scroll-margin-top: 11rem;
   }
 
   .profile-links a:hover,
