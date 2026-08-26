@@ -29,6 +29,30 @@ npm run dev:cloudflare
 Wrangler normally serves the Cloudflare-local version at
 `http://localhost:8788`. The database state stays local under `.wrangler/`.
 
+## Source structure
+
+`src/pages` contains route entrypoints. Those files should stay small and
+compose layouts and components rather than owning an entire page's markup,
+styles, and browser behavior.
+
+- `src/layouts/BaseLayout.astro` owns the shared HTML document shell, metadata,
+  global styles, footer, and analytics consent.
+- `src/layouts/HomeLayout.astro` adds the homepage navigation and main content
+  container.
+- `src/components/home` contains one component for each visible homepage
+  section. The news feature has its own nested components because it also owns
+  map rendering and date-based browser behavior.
+- `src/components/site` contains navigation shared at the site or page-family
+  level.
+- `src/styles/global.css` contains only design tokens, resets, and truly global
+  accessibility defaults. Component-specific CSS stays beside its markup.
+- `src/data/news.ts` remains the single typed source for news and events.
+- `src/content/writing` remains the content collection for long-form writing.
+
+The homepage route in `src/pages/index.astro` therefore reads as a table of
+contents for the page. To edit a visible section, open the correspondingly
+named component instead of searching through the route file.
+
 ## Production check
 
 ```sh
