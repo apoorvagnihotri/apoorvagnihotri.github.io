@@ -237,11 +237,12 @@ const navigation = [
   }
 
   .navigation-links a:hover,
-  .navigation-links a[aria-current="location"] {
+  .navigation-links a:focus-visible {
     color: var(--text);
   }
 
   .navigation-links a[aria-current="location"] {
+    color: var(--highlight-text);
     font-weight: 650;
   }
 
@@ -252,8 +253,8 @@ const navigation = [
     left: 0;
     width: var(--navigation-indicator-width);
     height: 1.62rem;
-    border: 1px solid color-mix(in srgb, var(--text) 78%, transparent);
-    background: color-mix(in srgb, var(--line) 64%, transparent);
+    border: 1px solid color-mix(in srgb, var(--highlight-text) 38%, transparent);
+    background: var(--highlight-background);
     opacity: 0;
     pointer-events: none;
     transform: translate3d(var(--navigation-indicator-x), 0, 0);
@@ -271,8 +272,8 @@ const navigation = [
     height: 0.36rem;
     border: 2px solid var(--background);
     border-radius: 50%;
-    background: var(--text);
-    box-shadow: 0 0 0 1px var(--text);
+    background: var(--highlight-text);
+    box-shadow: 0 0 0 1px var(--highlight-text);
     content: "";
     transform: translateX(-50%);
   }

@@ -11,6 +11,8 @@
   --text: #1b1b19;
   --muted: #65655e;
   --line: #d9d9d2;
+  --highlight-background: #c5eff6;
+  --highlight-text: #2c5575;
   --max-width: 72rem;
   color-scheme: light;
   scroll-behavior: smooth;
