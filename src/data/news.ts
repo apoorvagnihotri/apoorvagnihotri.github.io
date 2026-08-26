@@ -2,6 +2,7 @@ export type NewsItem = {
   title: string;
   type:
     | "career"
+    | "community"
     | "conference"
     | "education"
     | "publication"
@@ -70,6 +71,14 @@ export const newsItems: NewsItem[] = [
       longitude: 9.0576,
       labelPlacement: "above-right",
     },
+  },
+  {
+    title: "Joined the Thinking About Thinking Ambassador Programme",
+    type: "community",
+    startDate: "2026-08-24",
+    description:
+      "A year-long programme bringing early-career researchers together around interdisciplinary work on intelligence.",
+    href: "https://www.thinkingaboutthinking.org/fellowship",
   },
   {
     title: "Submitted my master’s thesis",

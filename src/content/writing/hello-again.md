@@ -49,8 +49,8 @@ To hone my skills in building for customers, I approached [Dr. Wieland Brendel](
 
 Finally, I evaluated the prototype with and without AI support using a between-subjects study design. Each participant took part in only one condition, a design that typically requires more participants to achieve statistical power comparable to a within-subject design. One thing I learned was just how time-consuming it is to conduct empirical research. It also reminded me that sustaining the necessary persistence once motivation dips depends on an inherent drive to solve the particular problem.
 
-My thesis clarified the kinds of questions I want to pursue. I learned that the domain matters to me as much as the method: I am not interested in building a startup simply for the sake of it. I am most drawn to applying AI to medicine and, more broadly, to scientific discovery. I am especially interested in domains grounded in measurable phenomena and physical reality—the kind of grounding I associate with physics. I want to work alongside people asking the same question: how can AI help us uncover patterns, mechanisms, or hypotheses that would otherwise remain difficult to see?
+My thesis clarified the kinds of questions I want to pursue. I learned that the domain matters to me as much as the method: I am not interested in building a startup simply for the sake of it. I am most drawn to applying AI to medicine and, more broadly, to scientific discovery. I am especially interested in domains grounded in measurable phenomena and physical reality—the kind of grounding I associate with physics. I want to work with just one goal. Understanding.
 
-That is why I find myself following curiosity back to academia. I want to answer questions using the scientific method. At this stage, I wish for nothing more than to see some of those answers move the needle a few years—or perhaps months—down the line.
+That is why I find myself following curiosity back to academia. I want to answer questions using the scientific method. At this stage, I wish for nothing more than to see some of those answers move the needle a few years—or perhaps months?—down the line.
 
 Until next time. :)
