@@ -43,21 +43,6 @@ gives us a useful evaluation framework for both scientific prose and figures:
 The likely system is therefore a dependable reading family for articles and
 data labels, with one expressive family for the name, titles, or small accents.
 
-## Selected system
-
-- **Newsreader** for the hero name, section and project titles, and long-form
-  prose.
-- **Source Sans 3** for navigation, homepage copy, metadata, labels, and other
-  interface text.
-- **Source Code Pro** only for actual code.
-- **Array** as a deliberately narrow accent for the joking “male, 27, single.”
-  line. Its dating-profile tone benefits from a conspicuous display face, but
-  the same personality would distract from research prose and navigation.
-
-The four families are delivered through Astro's font pipeline so the built site
-serves them from its own origin rather than making visitors contact a font
-provider at runtime.
-
 ## Later experiment
 
 Compare each candidate at the same sizes in these roles:
