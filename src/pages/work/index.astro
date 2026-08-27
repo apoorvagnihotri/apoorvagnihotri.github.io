@@ -1,0 +1,64 @@
+---
+import WorkGrid from "../../components/WorkGrid.astro";
+import SimpleHeader from "../../components/site/SimpleHeader.astro";
+import { withBase } from "../../config/site";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getWorkEntries } from "../../lib/work";
+
+const workEntries = await getWorkEntries();
+---
+
+<BaseLayout
+  title="Work — Apoorv Agnihotri"
+  description="Publications and projects by Apoorv Agnihotri across deployment-aware AI, scientific computing, computer vision, and sensing."
+  maxWidth="64rem"
+>
+  <SimpleHeader
+    ariaLabel="Work navigation"
+    homeHref={withBase("/")}
+    secondaryHref={withBase("/#work")}
+    secondaryLabel="Homepage"
+  />
+
+  <main id="main-content">
+    <p class="eyebrow">Archive</p>
+    <h1>Work</h1>
+    <p class="introduction">
+      Publications and projects across deployment-aware machine learning,
+      scientific computing, computer vision, and environmental sensing.
+    </p>
+    <WorkGrid entries={workEntries} headingLevel={2} />
+  </main>
+</BaseLayout>
+
+<style>
+  main {
+    width: min(calc(100% - 2rem), var(--max-width));
+    margin: 0 auto;
+    padding: clamp(4rem, 10vw, 8rem) 0 5rem;
+  }
+
+  .eyebrow {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.75rem;
+    font-weight: 650;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  h1 {
+    margin: 0.15rem 0 1rem;
+    font-family: var(--font-display);
+    font-size: clamp(3.25rem, 9vw, 7rem);
+    font-weight: 400;
+    letter-spacing: -0.04em;
+    line-height: 1;
+  }
+
+  .introduction {
+    max-width: 42rem;
+    color: var(--muted);
+    font-size: 1.15rem;
+  }
+</style>

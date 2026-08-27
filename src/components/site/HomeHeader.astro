@@ -7,7 +7,6 @@ const navigation = [
   { label: "Work", href: "#work" },
   { label: "Writing", href: "#writing" },
   { label: "News", href: "#news" },
-  { label: "CV", href: "#cv" },
 ];
 ---
 
@@ -181,7 +180,12 @@ const navigation = [
 
   .site-name {
     flex: none;
-    font-weight: 650;
+    font-family: var(--font-name);
+    font-size: 1rem;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    -webkit-text-stroke: 0.35px currentColor;
+    text-shadow: 0.35px 0 currentColor, -0.35px 0 currentColor;
     text-decoration: none;
   }
 
@@ -190,9 +194,11 @@ const navigation = [
     --navigation-indicator-x: 0px;
     position: relative;
     display: flex;
+    flex: 1;
     overflow-x: auto;
     padding: 0.18rem 0 0.42rem;
     align-items: center;
+    justify-content: flex-end;
     gap: 0.25rem;
     isolation: isolate;
     scrollbar-width: none;
@@ -288,12 +294,20 @@ const navigation = [
       align-items: flex-start;
       flex-direction: column;
       gap: 0.65rem;
+      overflow-x: hidden;
       padding-inline: 1rem;
     }
 
     .navigation-links {
-      width: 100%;
+      flex: none;
+      width: max-content;
+      max-width: 100%;
       padding-bottom: 0.1rem;
+      justify-content: flex-start;
+    }
+
+    .navigation-links a {
+      padding-inline: 0.4rem;
     }
   }
 
