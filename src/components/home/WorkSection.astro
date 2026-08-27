@@ -1,13 +1,29 @@
 ---
-import EmptyState from "./EmptyState.astro";
+import { withBase } from "../../config/site";
+import { getFeaturedWorkEntries } from "../../lib/work";
+import WorkGrid from "../WorkGrid.astro";
 import HomeSection from "./HomeSection.astro";
+
+const featuredWork = await getFeaturedWorkEntries();
 ---
 
 <HomeSection
   id="work"
   number="03"
   title="Selected work"
-  introduction="Publications and projects most closely aligned with my current interests will appear here, with links to papers, code, data, and project pages."
+  introduction="A selection of publications and projects spanning deployment-aware AI, scientific computing, and tools built for constrained real-world settings."
+  wide
 >
-  <EmptyState>No selected work has been added yet.</EmptyState>
+  <WorkGrid entries={featuredWork} headingLevel={3} />
+  <p class="view-all">
+    <a href={withBase("/work/")}>View all work →</a>
+  </p>
 </HomeSection>
+
+<style>
+  .view-all {
+    margin: 2rem 0 0;
+    font-size: 0.9rem;
+    font-weight: 650;
+  }
+</style>
