@@ -7,6 +7,15 @@ export default defineConfig({
   base: isGitHubPages ? "/personal-website" : "/",
   fonts: [
     {
+      provider: fontProviders.google(),
+      name: "Bungee Hairline",
+      cssVariable: "--font-bungee-hairline",
+      weights: [400],
+      styles: ["normal"],
+      subsets: ["latin"],
+      fallbacks: ["sans-serif"],
+    },
+    {
       provider: fontProviders.fontshare(),
       name: "Array",
       cssVariable: "--font-array",

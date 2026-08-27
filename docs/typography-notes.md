@@ -45,10 +45,13 @@ data labels, with one expressive family for the name, titles, or small accents.
 
 ## Current accents
 
+- **Bungee Hairline** is used for the hero name. Its thin, geometric forms make
+  the name feel like a deliberate display mark while leaving the rest of the
+  page in the original readable system.
 - **Array** is used only for the joking “male, 27, single.” line.
-- **Buckwheat TC Rough** is the intended hero-name experiment, pending a
-  licensed WOFF/WOFF2 webfont kit. The readily available desktop and personal
-  downloads are not licensed for public `@font-face` embedding.
+- **Buckwheat TC Rough** remains a visual reference for a future experiment,
+  pending a licensed WOFF/WOFF2 webfont kit. The readily available desktop and
+  personal downloads are not licensed for public `@font-face` embedding.
 
 ## Later experiment
 
