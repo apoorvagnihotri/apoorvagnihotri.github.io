@@ -43,6 +43,13 @@ gives us a useful evaluation framework for both scientific prose and figures:
 The likely system is therefore a dependable reading family for articles and
 data labels, with one expressive family for the name, titles, or small accents.
 
+## Current accents
+
+- **Array** is used only for the joking “male, 27, single.” line.
+- **Buckwheat TC Rough** is the intended hero-name experiment, pending a
+  licensed WOFF/WOFF2 webfont kit. The readily available desktop and personal
+  downloads are not licensed for public `@font-face` embedding.
+
 ## Later experiment
 
 Compare each candidate at the same sizes in these roles:
