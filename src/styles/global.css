@@ -5,8 +5,10 @@
 }
 
 :root {
-  --font-body: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --font-display: Georgia, "Times New Roman", serif;
+  --font-body: var(--font-source-sans), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-display: var(--font-newsreader), "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+  --font-mono: var(--font-source-code), ui-monospace, "SFMono-Regular", Consolas, monospace;
+  --font-accent: var(--font-array), sans-serif;
   --background: #fafaf8;
   --text: #1b1b19;
   --muted: #65655e;
@@ -26,6 +28,13 @@ body {
   color: var(--text);
   font-family: var(--font-body);
   line-height: var(--body-line-height, 1.65);
+}
+
+code,
+kbd,
+pre,
+samp {
+  font-family: var(--font-mono);
 }
 
 a {

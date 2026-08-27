@@ -6,7 +6,7 @@ import ProfileLinks from "../site/ProfileLinks.astro";
 <section class="introduction" id="top" aria-labelledby="intro-heading">
   <h1 id="intro-heading">{siteConfig.name}</h1>
   <p class="lede">
-    male, 27
+    male, 27, single.
   </p>
   <p>
     I am Apoorv, born in Jabalpur, India. I have always been facinated with computers and enjoy applying machine learning to real world problems. This website is a collection of my current research interests, past collaborations, ramblings and when and where you might be able to find me IRL.
@@ -42,7 +42,10 @@ import ProfileLinks from "../site/ProfileLinks.astro";
   .lede {
     max-width: 44rem;
     margin: 0;
+    font-family: var(--font-accent);
     font-size: clamp(1.25rem, 2.4vw, 1.75rem);
+    font-weight: 400;
+    letter-spacing: 0.015em;
     line-height: 1.45;
   }
 

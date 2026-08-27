@@ -1,4 +1,5 @@
 ---
+import { Font } from "astro:assets";
 import AnalyticsConsent from "../components/AnalyticsConsent.astro";
 import SiteFooter from "../components/SiteFooter.astro";
 import { siteConfig } from "../config/site";
@@ -33,6 +34,10 @@ const {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <meta name="description" content={description} />
+    <Font cssVariable="--font-newsreader" />
+    <Font cssVariable="--font-source-sans" />
+    <Font cssVariable="--font-source-code" />
+    <Font cssVariable="--font-array" />
     <title>{title}</title>
   </head>
   <body style={`--max-width: ${maxWidth}; --body-line-height: ${bodyLineHeight};`}>
