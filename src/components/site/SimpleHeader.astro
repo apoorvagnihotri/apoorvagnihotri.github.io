@@ -40,7 +40,10 @@ const { ariaLabel, homeHref, secondaryHref, secondaryLabel } = Astro.props;
 
   .site-name {
     font-family: var(--font-name);
-    font-weight: 400;
+    font-size: 1rem;
+    font-weight: 800;
     letter-spacing: 0.02em;
+    -webkit-text-stroke: 0.35px currentColor;
+    text-shadow: 0.35px 0 currentColor, -0.35px 0 currentColor;
   }
 </style>
