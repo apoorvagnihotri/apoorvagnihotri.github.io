@@ -20,7 +20,7 @@ Research Fellows contribute to all the stages of a project; it varies from under
 
 I am blessed to have got the opportunity to be a Research Fellow at Wadhwani AI. I believe I will be learning a lot from my stint at Wadhwani, also realizing my wish to help people.
 
-During my undergrad studies, I started learning machine learning as a tool in solutions; I was inspired by the [documentary on Deepmind's AlphaGo][DMalphaGO]—a computer program that beat the world champion of Go in 2016. I believe that artificial intelligence is the tool of the era, and if we can train a computer to beat the world champion, we can train it to help us make better decisions.
+During my undergrad studies, I started learning machine learning as a tool in solutions; I was inspired by the [documentary on DeepMind's AlphaGo][DMalphaGO]—a computer program that beat the world champion of Go in 2016. I believe that artificial intelligence is the tool of the era, and if we can train a computer to beat the world champion, we can train it to help us make better decisions.
 
 At Wadhwani AI, I will be contributing my share to our moonshot of helping millions of neglected people.
 

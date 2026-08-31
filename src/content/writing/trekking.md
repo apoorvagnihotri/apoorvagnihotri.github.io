@@ -22,7 +22,7 @@ My primary motivation to write this blog is to log the experience of going on a 
 
 One of the most common issues that we faced was dehydration. You would ask us to drink a lot of water to solve this issue, right? There are two issues in this simple solution. First, potable water is not freely available, and we can only carry a limited quantity. Second, if we do get drinkable water, the temperature of the water can range from 2°C to 8°C, drinking, which requires a special procedure of first heating the water in our mouths before being able to gulp it. One is, therefore, not able to have more than 2-3 gulps without getting tired/frustrated.
 
-With all the intense trekking the whole day, our bodies ached a lot during the evening. One of the most reliable recovery tools, i.e., a comfortable sleep, wasn't available. You say why? We were to sleep in make-shift tents. These tents, being set up on the snow, didn't have a flat floor. As a result, we were not able to recover even after resting and sleeping for the whole night. Below is a click of the tents we got. Mind you; we never set them up. Setting the tents up ourselves would have been even more challenging after our tiring trek.
+With all the intense trekking the whole day, our bodies ached a lot during the evening. One of the most reliable recovery tools, i.e., a comfortable sleep, wasn't available. You say why? We were to sleep in makeshift tents. These tents, being set up on the snow, didn't have a flat floor. As a result, we were not able to recover even after resting and sleeping for the whole night. Below is a click of the tents we got. Mind you; we never set them up. Setting the tents up ourselves would have been even more challenging after our tiring trek.
 
 <img src="../../images/writing/trekking/tents-on-snow.jpeg" alt="Tents on the snow">
 
@@ -30,7 +30,7 @@ Another problem was guarding ourselves against the night temperatures, which eas
 
 The primary objective I felt during such treks is to survive and not get seriously ill. In our day to day lives, we are surrounded by such good facilities that we don't care about survival, that's a given. While on the trek, the closest hospital was 3 hours of trek and 10 hours of drive away from our campsite. Our actions there are driven by the will to survive because, in contrast to our homes, survival isn't granted. If you didn't put enough socks on, you are looking at a numb toe for two months.
 
-At the end of the trek, when we were reaching Dehradun, I was wonderstruck that even the [roads studs](https://www.google.com/search?q=Road+Studs) had lights in them. While on the trek, to get anything from my backpack, I first needed to find a torch. If I ever planned a pee session during the night, I was essentially blind without a torch. These realizations helped me to appreciate the prince's life we usually live. Now, if any person asks me how my trek was, gets to listen to the following phrase.
+At the end of the trek, when we were reaching Dehradun, I was wonderstruck that even the [road studs](https://www.google.com/search?q=Road+Studs) had lights in them. While on the trek, to get anything from my backpack, I first needed to find a torch. If I ever planned a pee session during the night, I was essentially blind without a torch. These realizations helped me to appreciate the prince's life we usually live. Now, if any person asks me how my trek was, gets to listen to the following phrase.
 
 `My gratitude level = ∞`
 
