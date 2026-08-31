@@ -1,6 +1,5 @@
 ---
 import { Font } from "astro:assets";
-import profilePhoto from "../assets/profile/apoorv-garden.jpg";
 import AnalyticsConsent from "../components/AnalyticsConsent.astro";
 import SiteFooter from "../components/SiteFooter.astro";
 import { siteConfig, withBase } from "../config/site";
@@ -29,7 +28,7 @@ const {
 } = Astro.props;
 
 const canonicalUrl = new URL(Astro.url.pathname, siteConfig.url);
-const socialImageUrl = new URL(profilePhoto.src, siteConfig.url);
+const socialImageUrl = new URL(withBase("/social-preview.png"), siteConfig.url);
 ---
 
 <!doctype html>
@@ -47,6 +46,10 @@ const socialImageUrl = new URL(profilePhoto.src, siteConfig.url);
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalUrl} />
     <meta property="og:image" content={socialImageUrl} />
+    <meta property="og:image:secure_url" content={socialImageUrl} />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1730" />
+    <meta property="og:image:height" content="909" />
     <meta
       property="og:image:alt"
       content="Apoorv Agnihotri smiling in front of a garden window"
