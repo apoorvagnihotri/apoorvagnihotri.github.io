@@ -68,7 +68,7 @@ export const newsItems: NewsItem[] = [
     type: "race",
     startDate: "2026-09-19",
     location: "Espoo, Finland",
-    description: "Running the half marathon - hopefully.",
+    description: "Running the marathon - hopefully.",
     href: "https://www.rantamaraton.fi/in-english/",
     contactLabel: "Also in town? Let’s get coffee.",
     contactHref: "mailto:apoorvagni@gmail.com?subject=Coffee%20in%20Espoo",
