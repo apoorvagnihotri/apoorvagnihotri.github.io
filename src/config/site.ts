@@ -1,5 +1,6 @@
 export const siteConfig = {
   name: "Apoorv Agnihotri",
+  url: "https://apoorvagnihotri.github.io",
   analytics: {
     googleMeasurementId: "G-EBZQ5EGPT5",
   },

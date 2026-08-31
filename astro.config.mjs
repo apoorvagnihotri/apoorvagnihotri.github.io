@@ -1,9 +1,7 @@
 import { defineConfig, fontProviders } from "astro/config";
 
-const isGitHubPages = process.env.GITHUB_PAGES === "true";
-
 export default defineConfig({
-  site: isGitHubPages ? "https://apoorvagnihotri.github.io" : undefined,
+  site: "https://apoorvagnihotri.github.io",
   base: "/",
   fonts: [
     {

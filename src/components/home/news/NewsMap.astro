@@ -21,7 +21,7 @@ const { items } = Astro.props;
     />
     {
       items.map((item) => {
-        const city = item.location?.split(",")[0] ?? item.title;
+        const city = item.mapCoordinates.label;
         const position = projectToEuropeMap(
           item.mapCoordinates.latitude,
           item.mapCoordinates.longitude,

@@ -10,6 +10,20 @@ const mappedNewsItems = newsItems.filter(
   (item): item is MappedNewsItem => Boolean(item.mapCoordinates),
 );
 
+// The map answers “which cities?”; the feed supplies individual dates and venues.
+// Keep one marker per city, using its latest listed event to determine visibility.
+const mapItemsByCity = new Map<string, MappedNewsItem>();
+for (const item of mappedNewsItems) {
+  const existing = mapItemsByCity.get(item.mapCoordinates.label);
+  const itemEndDate = item.endDate ?? item.startDate;
+
+  if (!existing || itemEndDate > (existing.endDate ?? existing.startDate)) {
+    mapItemsByCity.set(item.mapCoordinates.label, item);
+  }
+}
+
+const mapItems = [...mapItemsByCity.values()];
+
 const iconVariables = [
   `--icon-calendar: url("${withBase("/icons/calendar.svg")}")`,
   `--icon-map-pin: url("${withBase("/icons/map-pin.svg")}")`,
@@ -29,7 +43,7 @@ const iconVariables = [
     <div class="news-group">
       <h3>Upcoming</h3>
       <div class="news-upcoming-layout">
-        <NewsMap items={mappedNewsItems} />
+        <NewsMap items={mapItems} />
 
         <div class="news-upcoming-feed">
           <ol class="news-list" data-news-list="upcoming">

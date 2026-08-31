@@ -21,14 +21,32 @@ export type NewsItem = {
   mapCoordinates?: {
     latitude: number;
     longitude: number;
+    label: string;
     labelPlacement?: "above-left" | "above-right" | "below-left" | "below-right";
   };
 };
 
 // Add news items here using ISO dates (YYYY-MM-DD). The homepage groups them
 // into current/upcoming, recent, and archive entries in the visitor's browser.
-// For an item to appear on the Europe map, add the city's latitude and longitude.
+// For an item to appear on the Europe map, add its city's coordinates and label.
+// Keep venue names and full addresses in `location`; the map label stays city-level.
 export const newsItems: NewsItem[] = [
+  {
+    title: "AE Global Summit 2026",
+    type: "conference",
+    startDate: "2026-11-25",
+    endDate: "2026-11-27",
+    location: "Friends House, 173–177 Euston Road, London NW1 2BJ, United Kingdom",
+    description:
+      "I will be attending Thinking About Thinking's annual meeting on open problems for AI.",
+    href: "https://www.thinkingaboutthinking.org/ae-global-summit",
+    mapCoordinates: {
+      latitude: 51.528,
+      longitude: -0.1281,
+      label: "London",
+      labelPlacement: "below-left",
+    },
+  },
   {
     title: "Lausanne Marathon",
     type: "race",
@@ -41,6 +59,7 @@ export const newsItems: NewsItem[] = [
     mapCoordinates: {
       latitude: 46.5197,
       longitude: 6.6323,
+      label: "Lausanne",
       labelPlacement: "below-left",
     },
   },
@@ -49,14 +68,28 @@ export const newsItems: NewsItem[] = [
     type: "race",
     startDate: "2026-09-19",
     location: "Espoo, Finland",
-    description: "Running the marathon - hopefully.",
+    description: "Running the half marathon - hopefully.",
     href: "https://www.rantamaraton.fi/in-english/",
     contactLabel: "Also in town? Let’s get coffee.",
     contactHref: "mailto:apoorvagni@gmail.com?subject=Coffee%20in%20Espoo",
     mapCoordinates: {
       latitude: 60.2055,
       longitude: 24.6559,
+      label: "Espoo",
       labelPlacement: "above-right",
+    },
+  },
+  {
+    title: "Master's thesis defence",
+    type: "education",
+    startDate: "2026-09-21",
+    location: "Maria-von-Linden-Straße 6, Tübingen, Germany",
+    description: "My master's defence is scheduled for 11 am.",
+    mapCoordinates: {
+      latitude: 48.5311,
+      longitude: 9.0577,
+      label: "Tübingen",
+      labelPlacement: "below-right",
     },
   },
   {
@@ -69,6 +102,7 @@ export const newsItems: NewsItem[] = [
     mapCoordinates: {
       latitude: 48.5216,
       longitude: 9.0576,
+      label: "Tübingen",
       labelPlacement: "above-right",
     },
   },

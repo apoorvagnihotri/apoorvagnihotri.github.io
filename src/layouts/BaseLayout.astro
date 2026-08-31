@@ -1,8 +1,9 @@
 ---
 import { Font } from "astro:assets";
+import profilePhoto from "../assets/profile/apoorv-garden.jpg";
 import AnalyticsConsent from "../components/AnalyticsConsent.astro";
 import SiteFooter from "../components/SiteFooter.astro";
-import { siteConfig } from "../config/site";
+import { siteConfig, withBase } from "../config/site";
 import "../styles/global.css";
 
 type Props = {
@@ -26,6 +27,9 @@ const {
   footerBackHref,
   footerBackLabel,
 } = Astro.props;
+
+const canonicalUrl = new URL(Astro.url.pathname, siteConfig.url);
+const socialImageUrl = new URL(profilePhoto.src, siteConfig.url);
 ---
 
 <!doctype html>
@@ -34,6 +38,27 @@ const {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+    <link rel="icon" type="image/png" href={withBase("/favicon.png")} />
+    <link rel="apple-touch-icon" href={withBase("/apple-touch-icon.png")} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={siteConfig.name} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={socialImageUrl} />
+    <meta
+      property="og:image:alt"
+      content="Apoorv Agnihotri smiling in front of a garden window"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={socialImageUrl} />
+    <meta
+      name="twitter:image:alt"
+      content="Apoorv Agnihotri smiling in front of a garden window"
+    />
     <Font cssVariable="--font-bungee-hairline" />
     <Font cssVariable="--font-array" />
     <title>{title}</title>
