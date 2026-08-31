@@ -180,6 +180,8 @@ const navigation = [
 
   .site-name {
     flex: none;
+    padding: 0.36rem 0.5rem;
+    border: 1px solid transparent;
     font-family: var(--font-name);
     font-size: 1rem;
     font-weight: 800;
@@ -187,6 +189,20 @@ const navigation = [
     -webkit-text-stroke: 0.35px currentColor;
     text-shadow: 0.35px 0 currentColor, -0.35px 0 currentColor;
     text-decoration: none;
+    transition:
+      border-color 180ms ease,
+      background-color 180ms ease,
+      color 180ms ease;
+  }
+
+  .site-name[aria-current="location"] {
+    border-color: color-mix(in srgb, var(--highlight-text) 20%, transparent);
+    background: color-mix(
+      in srgb,
+      var(--highlight-background) 58%,
+      transparent
+    );
+    color: color-mix(in srgb, var(--highlight-text) 72%, var(--text));
   }
 
   .navigation-links {
@@ -312,6 +328,7 @@ const navigation = [
   }
 
   @media (prefers-reduced-motion: reduce) {
+    .site-name,
     .navigation-indicator,
     .navigation-links a {
       transition: none;

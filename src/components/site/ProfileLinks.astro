@@ -1,5 +1,4 @@
 ---
-import { withBase } from "../../config/site";
 import ProfileIcon from "./ProfileIcon.astro";
 
 type IconName = "email" | "linkedin" | "github" | "scholar" | "x" | "cv";
@@ -49,7 +48,9 @@ const profileLinks: ProfileLink[] = [
   },
   {
     label: "CV",
-    href: withBase("/files/apoorv-agnihotri-cv.pdf"),
+    // Always resolves to the newest CV release, published by the build
+    // workflow in the (private) resume source repo.
+    href: "https://github.com/apoorvagnihotri/personal-website/releases/latest/download/apoorv-agnihotri-cv.pdf",
     icon: "cv",
   },
 ];

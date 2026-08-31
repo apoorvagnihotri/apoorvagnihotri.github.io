@@ -1,25 +1,42 @@
 ---
+import { Image } from "astro:assets";
+import profilePhoto from "../../assets/profile/apoorv-garden.jpg";
 import { siteConfig } from "../../config/site";
 import ProfileLinks from "../site/ProfileLinks.astro";
 ---
 
 <section class="introduction" id="top" aria-labelledby="intro-heading">
   <h1 id="intro-heading">{siteConfig.name}</h1>
-  <p class="lede">
-    male, 27
-  </p>
-  <p>
-    I was born in Jabalpur, India. I have always been fascinated with computers and enjoy applying machine learning to real world problems. This website is a collection of my current research interests, past collaborations, ramblings and when and where you might be able to find me IRL.
-  </p>
-  <p class="summary">
-    I recently completed a master&apos;s degree in Machine Learning at the
-    University of Tübingen and am{" "}
-    <strong class="phd-status">currently actively applying for PhD positions</strong>. I
-    am broadly interested in using AI to enable scientific discovery,
-    with a particular affinity for applications in healthcare.
-  </p>
-  <div class="profile-links-wrap">
-    <ProfileLinks label="Primary contact and profiles" />
+  <div class="introduction-body">
+    <p class="lede">
+      male, 27
+    </p>
+    <figure class="portrait">
+      <Image
+        src={profilePhoto}
+        alt="Apoorv Agnihotri smiling in front of a garden window"
+        width={900}
+        quality="high"
+        loading="eager"
+        fetchpriority="high"
+        decoding="async"
+      />
+    </figure>
+    <div class="biography">
+      <p>
+        I was born in Jabalpur, India. I have always been fascinated with computers and enjoy applying machine learning to real world problems. This website is a collection of my current research interests, past collaborations, ramblings and when and where you might be able to find me IRL.
+      </p>
+      <p class="summary">
+        I recently completed a master&apos;s degree in Machine Learning at the
+        University of Tübingen and am{" "}
+        <strong class="phd-status">currently actively applying for PhD positions</strong>. I
+        am broadly interested in using AI to enable scientific discovery,
+        with a particular affinity for applications in healthcare.
+      </p>
+      <div class="profile-links-wrap">
+        <ProfileLinks label="Primary contact and profiles" />
+      </div>
+    </div>
   </div>
 </section>
 
@@ -39,7 +56,19 @@ import ProfileLinks from "../site/ProfileLinks.astro";
     line-height: 1;
   }
 
+  .introduction-body {
+    display: grid;
+    grid-template-areas:
+      "lede portrait"
+      "biography portrait";
+    grid-template-columns: minmax(0, 42rem) minmax(14rem, 18rem);
+    column-gap: clamp(2.5rem, 7vw, 5rem);
+    row-gap: 1.4rem;
+    align-items: start;
+  }
+
   .lede {
+    grid-area: lede;
     max-width: 44rem;
     margin: 0;
     font-family: var(--font-accent);
@@ -47,6 +76,35 @@ import ProfileLinks from "../site/ProfileLinks.astro";
     font-weight: 400;
     letter-spacing: 0.015em;
     line-height: 1.45;
+  }
+
+  .biography {
+    grid-area: biography;
+  }
+
+  .biography > :first-child {
+    margin-top: 0;
+  }
+
+  .portrait {
+    position: relative;
+    grid-area: portrait;
+    width: 100%;
+    margin: 0;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    aspect-ratio: 4 / 5;
+    background: color-mix(in srgb, var(--line) 40%, var(--background));
+  }
+
+  .portrait :global(img) {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: right center;
+    transform: scale(1.8);
+    transform-origin: 64% 56%;
   }
 
   .summary {
@@ -68,5 +126,20 @@ import ProfileLinks from "../site/ProfileLinks.astro";
     font-weight: 750;
     box-decoration-break: clone;
     -webkit-box-decoration-break: clone;
+  }
+
+  @media (max-width: 44rem) {
+    .introduction-body {
+      grid-template-areas:
+        "lede"
+        "portrait"
+        "biography";
+      grid-template-columns: minmax(0, 1fr);
+      row-gap: 1.75rem;
+    }
+
+    .portrait {
+      width: min(100%, 18rem);
+    }
   }
 </style>
