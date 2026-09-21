@@ -1,5 +1,4 @@
 ---
-import { Image } from "astro:assets";
 import type { CollectionEntry } from "astro:content";
 import { resolveSiteHref } from "../config/site";
 
@@ -9,173 +8,68 @@ type Props = {
 };
 
 const { entries, headingLevel = 2 } = Astro.props;
+const Heading = headingLevel === 2 ? "h2" : "h3";
 ---
 
-<ul class="work-grid">
-  {
-    entries.map((entry) => (
-      <li>
-        <article>
-          {
-            entry.data.hero && (
-              <figure>
-                <Image
-                  src={entry.data.hero.src}
-                  alt={entry.data.hero.alt}
-                  widths={[480, 720, 960]}
-                  sizes="(max-width: 44rem) calc(100vw - 2rem), 32rem"
-                  loading="lazy"
-                  decoding="async"
-                />
-                {entry.data.hero.caption && (
-                  <figcaption>{entry.data.hero.caption}</figcaption>
-                )}
-              </figure>
-            )
-          }
-          <div class="work-meta">
-            <span>{entry.data.venue}</span>
-            <span class="year">{entry.data.year}</span>
-          </div>
-          {
-            headingLevel === 2 ? (
-              <h2 class="work-title">{entry.data.title}</h2>
-            ) : (
-              <h3 class="work-title">{entry.data.title}</h3>
-            )
-          }
+<ul class="publication-list">
+  {entries.map((entry) => (
+    <li class="publication">
+      <article>
+        <span class="year">{entry.data.year}</span>
+        <div class="publication-content">
+          <Heading class="publication-title">
+            {entry.data.links[0] ? (
+              <a href={resolveSiteHref(entry.data.links[0].href)}>{entry.data.title}</a>
+            ) : entry.data.title}
+          </Heading>
           <p class="authors">{entry.data.authors}</p>
-          <p class="description">{entry.data.description}</p>
-          <ul class="work-links" aria-label={`Links for ${entry.data.title}`}>
-            {entry.data.links.map((link) => (
-              <li>
-                <a
-                  href={resolveSiteHref(link.href)}
-                  aria-label={`${link.label}: ${entry.data.title}`}
-                >
-                  {link.label}
-                </a>
-              </li>
-            ))}
-          </ul>
-          <ul class="tags" aria-label={`Topics for ${entry.data.title}`}>
-            {entry.data.tags.map((tag) => <li>{tag}</li>)}
-          </ul>
-        </article>
-      </li>
-    ))
-  }
+          <p class="venue">{entry.data.venue}</p>
+          <div class="publication-actions">
+            <ul class="publication-links" aria-label={`Links for ${entry.data.title}`}>
+              {entry.data.links.map((link) => (
+                <li><a href={resolveSiteHref(link.href)} aria-label={`${link.label}: ${entry.data.title}`}>{link.label}</a></li>
+              ))}
+            </ul>
+            <details>
+              <summary aria-label={`About this paper: ${entry.data.title}`}>About this paper</summary>
+              <div class="paper-details">
+                <p>{entry.data.description}</p>
+                <ul class="topics" aria-label={`Topics for ${entry.data.title}`}>
+                  {entry.data.tags.map((tag) => <li>{tag}</li>)}
+                </ul>
+              </div>
+            </details>
+          </div>
+        </div>
+      </article>
+    </li>
+  ))}
 </ul>
 
 <style>
-  .work-grid {
-    display: grid;
-    margin: 2.25rem 0 0;
-    padding: 0;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 2.5rem 2rem;
-    list-style: none;
-  }
-
-  article {
-    height: 100%;
-    padding-top: 1.25rem;
-    border-top: 1px solid var(--line);
-  }
-
-  figure {
-    margin: 0 0 1.25rem;
-  }
-
-  figure img {
-    display: block;
-    width: 100%;
-    height: auto;
-    border: 1px solid var(--line);
-    background: white;
-  }
-
-  figcaption {
-    margin-top: 0.4rem;
-    color: var(--muted);
-    font-size: 0.8rem;
-    line-height: 1.35;
-  }
-
-  .work-meta {
-    display: flex;
-    margin-bottom: 0.55rem;
-    color: var(--muted);
-    font-size: 0.8rem;
-    font-weight: 650;
-    letter-spacing: 0.07em;
-    text-transform: uppercase;
-    justify-content: space-between;
-    gap: 1rem;
-  }
-
-  .work-title {
-    margin: 0 0 0.55rem;
-    font-family: var(--font-display);
-    font-size: clamp(1.45rem, 3vw, 2.05rem);
-    font-weight: 400;
-    letter-spacing: -0.018em;
-    line-height: 1.08;
-  }
-
-  .authors,
-  .description {
-    margin: 0;
-    color: var(--muted);
-  }
-
-  .authors {
-    font-size: 0.85rem;
-    line-height: 1.45;
-  }
-
-  .description {
-    margin-top: 0.9rem;
-    line-height: 1.55;
-  }
-
-  .work-links,
-  .tags {
-    display: flex;
-    margin: 1rem 0 0;
-    padding: 0;
-    flex-wrap: wrap;
-    gap: 0.45rem 0.8rem;
-    list-style: none;
-  }
-
-  .work-links a {
-    font-size: 0.88rem;
-    font-weight: 650;
-    text-underline-offset: 0.2em;
-  }
-
-  .tags {
-    margin-top: 0.9rem;
-    gap: 0.4rem;
-  }
-
-  .tags li {
-    padding: 0.15rem 0.45rem;
-    border: 1px solid var(--line);
-    border-radius: 999px;
-    color: var(--muted);
-    font-size: 0.78rem;
-  }
-
-  .year {
-    white-space: nowrap;
-  }
-
-  @media (max-width: 44rem) {
-    .work-grid {
-      grid-template-columns: 1fr;
-      gap: 2rem;
-    }
-  }
+  .publication-list { margin: 1.75rem 0 0; padding: 0; list-style: none; }
+  .publication + .publication { border-top: 1px solid var(--line); }
+  article { display: grid; grid-template-columns: 3rem minmax(0, 1fr); gap: 1rem; padding: 1.4rem 0; }
+  .publication:first-child article { padding-top: 0.25rem; }
+  .year { padding-top: 0.16rem; color: var(--muted); font-size: 0.8rem; font-variant-numeric: tabular-nums; }
+  .publication-title { margin: 0 0 0.45rem; font-family: var(--font-body); font-size: 1.05rem; font-weight: 600; line-height: 1.5; letter-spacing: -0.015em; }
+  .publication-title a { text-decoration: underline; text-decoration-color: transparent; text-decoration-thickness: 1px; transition: color 160ms ease, text-decoration-color 160ms ease; }
+  .publication-title a:hover, .publication-title a:focus-visible { color: var(--highlight-text); text-decoration-color: currentColor; }
+  .authors, .venue { margin: 0; color: var(--muted); font-size: 0.84rem; line-height: 1.6; }
+  .venue { font-style: italic; }
+  .publication-actions { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: 1.3rem; row-gap: 0.4rem; margin-top: 0.5rem; }
+  .publication-links { display: flex; flex-wrap: wrap; gap: 0.9rem; padding: 0; margin: 0; list-style: none; }
+  .publication-links a, summary { font-size: 0.8rem; }
+  .publication-links a { text-decoration-color: var(--line); transition: color 160ms ease, text-decoration-color 160ms ease; }
+  .publication-links a:hover, .publication-links a:focus-visible { color: var(--highlight-text); text-decoration-color: currentColor; }
+  details { min-width: 0; }
+  details[open] { flex-basis: 100%; }
+  summary { width: fit-content; color: var(--muted); cursor: pointer; }
+  summary::marker { font-size: 0.65rem; color: var(--muted); }
+  summary:hover, summary:focus-visible, details[open] summary { color: var(--highlight-text); }
+  .paper-details { margin-top: 0.75rem; padding-left: 1rem; border-left: 2px solid var(--highlight-background); }
+  .paper-details p { margin: 0; color: var(--muted); font-size: 0.9rem; line-height: 1.65; }
+  .topics { display: flex; flex-wrap: wrap; gap: 0.25rem 0.8rem; padding: 0; margin: 0.6rem 0 0; list-style: none; color: var(--muted); font-size: 0.75rem; }
+  @media (max-width: 30rem) { article { grid-template-columns: 2.5rem minmax(0, 1fr); gap: 0.65rem; } }
+  @media (prefers-reduced-motion: reduce) { .publication-title a, .publication-links a { transition: none; } }
 </style>

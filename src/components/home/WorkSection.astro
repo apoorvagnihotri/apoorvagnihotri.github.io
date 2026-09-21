@@ -7,20 +7,28 @@ import HomeSection from "./HomeSection.astro";
 const featuredWork = await getFeaturedWorkEntries();
 ---
 
+<span id="work" class="legacy-anchor" aria-hidden="true"></span>
+
 <HomeSection
-  id="work"
+  id="publications"
   number="03"
-  title="Selected work"
-  introduction="A selection of publications and projects spanning deployment-aware AI, scientific computing, and tools built for constrained real-world settings."
-  wide
+  title="Publications"
+  introduction="A few papers worth reading."
+  compact
 >
   <WorkGrid entries={featuredWork} headingLevel={3} />
   <p class="view-all">
-    <a href={withBase("/work/")}>View all work →</a>
+    <a href={withBase("/publications/")}>Full publication list <span aria-hidden="true">→</span></a>
   </p>
 </HomeSection>
 
 <style>
+  .legacy-anchor { display: block; scroll-margin-top: 7rem; }
+
+  .view-all span { display: inline-block; transition: transform 160ms ease; }
+  .view-all a:hover span, .view-all a:focus-visible span { transform: translateX(3px); }
+  @media (prefers-reduced-motion: reduce) { .view-all span { transition: none; } }
+
   .view-all {
     margin: 2rem 0 0;
     font-size: 0.9rem;
