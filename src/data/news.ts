@@ -32,22 +32,6 @@ export type NewsItem = {
 // Keep venue names and full addresses in `location`; the map label stays city-level.
 export const newsItems: NewsItem[] = [
   {
-    title: "AE Global Summit 2026",
-    type: "conference",
-    startDate: "2026-11-25",
-    endDate: "2026-11-27",
-    location: "Friends House, 173–177 Euston Road, London NW1 2BJ, United Kingdom",
-    description:
-      "I will be attending Thinking About Thinking's annual meeting on open problems for AI.",
-    href: "https://www.thinkingaboutthinking.org/ae-global-summit",
-    mapCoordinates: {
-      latitude: 51.528,
-      longitude: -0.1281,
-      label: "London",
-      labelPlacement: "below-left",
-    },
-  },
-  {
     title: "Lausanne Marathon",
     type: "race",
     startDate: "2026-10-25",
